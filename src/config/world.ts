@@ -21,7 +21,8 @@ const world = {
         aspect: { x: 0, y: 0 },
         isConcrete: true,
         id: '',
-        motion: { x: 0, y: 0 },
+        rotation: 0,
+        speed: 0,
         spawnPos: { x: 0, y: 0 },
         facing: 0
     })

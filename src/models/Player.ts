@@ -9,18 +9,19 @@ class Player extends Entity implements PlayerInterface {
     spawnPos: Point;
     abilities: AbilitiesInfo;
 
-    constructor({ name, layer, pos, aspect, isConcrete, id, motion, spawnPos, facing }: {
+    constructor({ name, layer, pos, aspect, isConcrete, id, rotation, speed, spawnPos, facing }: {
         name: string;
         layer: number;
         pos: Coordinate;
         aspect: Coordinate;
         isConcrete: boolean;
         id: string;
-        motion: Coordinate;
+        rotation: number;
+        speed: number;
         spawnPos: Coordinate;
         facing: Facing;
     }) {
-        super({ name, layer, pos, aspect, isConcrete, id, motion, facing });
+        super({ name, layer, pos, aspect, isConcrete, id, rotation, speed, facing });
         this.spawnPos = new Point(spawnPos);
         this.abilities = {
             speed: 4

@@ -9,8 +9,9 @@ export interface Coordinate {
 }
 export interface EntityInterface {
     id: string;
-    motion: Vector;
     facing: Facing;
+    rotation: number;
+    speed: number;
 }
 export interface PlayerInterface extends EntityInterface {
     spawnPos: Point;

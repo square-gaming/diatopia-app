@@ -1,10 +1,10 @@
 export enum DIRECTION {
-    NORTH,
-    NORTH_EAST,
     EAST,
-    SOUTH_EAST,
-    SOUTH,
-    SOUTH_WEST,
+    NORTH_EAST,
+    NORTH,
+    NORTH_WEST,
     WEST,
-    NORTH_WEST
+    SOUTH_WEST,
+    SOUTH,
+    SOUTH_EAST,
 }

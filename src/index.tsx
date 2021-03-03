@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import App from './containers/App';
+import Entry from './containers/Entry';
 import reportWebVitals from './reportWebVitals';
 import { createIntlProvider } from './context/intl';
 import { createStoreProvider } from './context/store';
@@ -16,7 +16,7 @@ const MOUNT_NODE = document.getElementById('dr') as HTMLDivElement;
 render(
     <StoreProvider>
         <IntlProvider>
-            <App />
+            <Entry />
         </IntlProvider>
     </StoreProvider>,
     MOUNT_NODE

@@ -6,7 +6,7 @@ import { StoreState } from '../types/context';
 const Component = ({ width, height, children }: {
     width: number;
     height: number;
-    children: JSX.Element;
+    children: JSX.Element[];
 }) => {
     const { rendererRef } = useContext<StoreState>(StoreContext)
     const handleOnMount = ({renderer}: PIXI.Application) => {

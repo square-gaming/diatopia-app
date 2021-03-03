@@ -1,41 +1,21 @@
-import React, { useContext, useRef, useState } from "react";
-import { StoreContext } from "../context/store";
-import { StoreState } from "../types/context";
-import Controller from "../controllers/control";
-import View from "./View";
+import React, { useContext } from 'react';
+import { video } from '../config/video';
+import { GLOBAL } from '../constants/global';
+import Viewport from '../components/Viewport';
+import Scene from './Scene';
+import UserInterface from './UserInterface';
+import { StoreContext } from '../context/store';
+import { StoreState } from '../types/context';
 
 const App = () => {
-	const { clientRef, dispatch } = useContext<StoreState>(StoreContext);
-	const inputEl = useRef<HTMLInputElement>(null!);
-	const [isConnected, setIsConnected] = useState(false);
-	const controller = new Controller(dispatch);
+    const { clientRef, rendererRef } = useContext<StoreState>(StoreContext);
 
-	const handlePlayClick = () => {
-		if (window.WebSocket) {
-			clientRef.current.connect(
-				{ username: inputEl.current.value },
-				"ws://10.28.1.110:443/websocket",
-				() => {
-					setIsConnected(true);
-					controller.setUp(clientRef.current);
-				}
-			);
-		} else {
-			alert("WebSocket not supported by your browser!");
-		}
-	};
-
-	return (
-		<div>
-			{isConnected ? null : (
-				<div>
-					username: <input ref={inputEl} type="text" />{" "}
-					<button onClick={handlePlayClick}>Play</button>
-				</div>
-			)}
-			{isConnected ? <View /> : null}
-		</div>
-	);
+    return (
+        <Viewport width={video.gridSize * GLOBAL.VIEWPORT_COLUMNS} height={video.gridSize * GLOBAL.VIEWPORT_ROWS}>
+            <Scene client={clientRef} renderer={rendererRef} />
+            <UserInterface />
+        </Viewport>
+    );
 };
 
 export default App;

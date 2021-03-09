@@ -6,6 +6,7 @@ import Void from "./Void";
 import Torch from "./Torch";
 import Cow from "./Cow";
 import Goat from "./Goat";
+import Sheep from "./Sheep";
 
 const constructors: {
     [name: string]: (data: any, size: number, x: number, y: number) => JSX.Element;
@@ -17,6 +18,7 @@ const constructors: {
     'Player': Player,
     'Cow': Cow,
     'Goat': Goat,
+    'Sheep': Sheep,
     'Object': Void
 };
 

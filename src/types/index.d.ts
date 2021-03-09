@@ -19,4 +19,4 @@ export type Toward = 0 | 1
 export type Level = Surface | Underground
 export type Structure = Wall | Door
 export type BlocksType = Floor | Wall | Door | Torch
-export type EntitiesType = Cow
+export type EntitiesType = Cow | Goat

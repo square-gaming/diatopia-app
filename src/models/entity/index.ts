@@ -5,8 +5,7 @@ import Sheep from "./mobs/Sheep";
 const constructors: {
     [entitiesType: string]: any;
 } = {
-    'Cow': Cow, 
-    'Goat': Goat
+    'Goat': Goat,
     'Cow': Cow,
     'Sheep': Sheep
 };

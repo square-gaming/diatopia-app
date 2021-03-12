@@ -1,40 +1,24 @@
-import React, { useContext, useRef, useState } from "react";
-import { StoreContext } from "../context/store";
-import { StoreState } from "../types/context";
-import Controller from "../controllers/control";
+import React, { useRef, useState } from "react";
 import App from "./App";
 
 const Entry = () => {
-	const { clientRef, dispatch } = useContext<StoreState>(StoreContext);
 	const inputEl = useRef<HTMLInputElement>(null!);
-	const [isConnected, setIsConnected] = useState(false);
-	const controller = new Controller(dispatch);
+	const [username, setUsername] = useState('');
 
 	const handlePlayClick = () => {
-		if (window.WebSocket) {
-			clientRef.current.connect(
-				{ username: inputEl.current.value },
-				"ws://118.169.93.246:443/websocket",
-				() => {
-					setIsConnected(true);
-					controller.setUp(clientRef.current);
-				}
-			);
-		} else {
-			alert("WebSocket not supported by your browser!");
+		if (inputEl.current.value) {
+			setUsername(inputEl.current.value);
 		}
 	};
 
 	return (
-		<div>
-			{isConnected ? null : (
+		<>
+			{username ? <App username={username} /> : 
 				<div>
-					username: <input ref={inputEl} type="text" />{" "}
-					<button onClick={handlePlayClick}>Play</button>
+					username: <input ref={inputEl} type="text" />{" "}<button onClick={handlePlayClick}>Play</button>
 				</div>
-			)}
-			{isConnected ? <App /> : null}
-		</div>
+			}
+		</>
 	);
 };
 

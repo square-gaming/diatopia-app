@@ -26,7 +26,7 @@ class Client {
     }
 
     public release(): Promise<Action[]> {
-        return new Promise((resolve: (value?: Action[]) => void) => {
+        return new Promise((resolve: (value: Action[]) => void) => {
             resolve(this.buffer.splice(0, this.buffer.length));
         });
     }

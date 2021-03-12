@@ -1,34 +1,32 @@
-import React from 'react';
 import controlConfig from '../config/control';
 import Action from '../constants/action';
 import { DIRECTION } from '../constants/direction';
+import { World } from '../types/reducers';
 import Client from './Client';
 
 class Controller {
     private keysPressed: { [keyName: string]: boolean }
-    private dispatch: React.Dispatch<{ type: string; payload?: any; }>
     
-    constructor(dispatch: React.Dispatch<{ type: string; payload?: any; }>) {
+    constructor() {
         this.keysPressed = {};
-        this.dispatch = dispatch;
     }
 
-    public setUp(client: Client) {
-        document.body.addEventListener('keydown', this.keydownHandler.bind(this, client));
-        document.body.addEventListener('keyup', this.keyupHandler.bind(this, client));
+    public setUp(client: Client, world: World) {
+        document.body.addEventListener('keydown', this.keydownHandler.bind(this, client, world));
+        document.body.addEventListener('keyup', this.keyupHandler.bind(this, client, world));
     }
 
-    private keydownHandler(this: Controller,client: Client, evt: KeyboardEvent) {
+    private keydownHandler(this: Controller, client: Client, world: World, evt: KeyboardEvent) {
         if (!this.keysPressed[evt.key]) {
             this.keysPressed[evt.key] = true;
-            this.moveControl(client, evt.key);
+            this.moveControl(client, world, evt.key);
         }
     }
 
-    private keyupHandler(this: Controller, client: Client, evt: KeyboardEvent) {
+    private keyupHandler(this: Controller, client: Client, world: World,  evt: KeyboardEvent) {
         delete this.keysPressed[evt.key]
         this.interactControl(client, evt.key);
-        this.moveControl(client, evt.key);
+        this.moveControl(client, world, evt.key);
     }
 
     private interactControl(client: Client, key: string) {
@@ -37,7 +35,7 @@ class Controller {
         }
     }
 
-    private moveControl(client: Client, key: string) {
+    private moveControl(client: Client, world: World, key: string) {
         const isMotion = Object.keys(this.keysPressed).length !== 0;
 
         if ((this.keysPressed['ArrowUp'] || this.keysPressed[controlConfig.UP_KEY]) &&

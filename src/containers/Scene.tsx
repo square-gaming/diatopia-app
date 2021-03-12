@@ -5,7 +5,7 @@ import { video } from '../config/video';
 import Camera from '../controllers/Camera';
 import receiver from '../controllers/receiver';
 import { World } from '../types/reducers';
-import { GLOBAL } from '../constants/global';
+import GLOBAL from '../constants/global';
 import worldConfig from '../config/world';
 import Client from '../controllers/Client';
 

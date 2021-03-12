@@ -78,5 +78,5 @@ export default function receiver(
         default:
             break;
     }
-    console.log(action.type, worldRef.current)
+    // console.log(action.type, worldRef.current)
 }

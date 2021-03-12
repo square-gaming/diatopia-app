@@ -3,7 +3,7 @@ import Camera from './Camera';
 import Group from '../components/Group';
 import Sight from '../components/Sight';
 import { video } from '../config/video';
-import { GLOBAL } from '../constants/global';
+import GLOBAL from '../constants/global';
 import React from 'react';
 import Vector from '../math/Vector';
 import LightMask from '../components/LightMask';

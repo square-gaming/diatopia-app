@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { video } from '../config/video';
-import { GLOBAL } from '../constants/global';
+import GLOBAL from '../constants/global';
 import Viewport from '../components/Viewport';
 import Scene from './Scene';
 import UserInterface from './UserInterface';

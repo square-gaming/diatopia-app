@@ -1,5 +1,5 @@
 import { video } from "../config/video";
-import { GLOBAL } from "../constants/global";
+import GLOBAL from "../constants/global";
 import Image from "../models/Image";
 import Point from "../math/Point";
 import Segment from "../math/Segment";

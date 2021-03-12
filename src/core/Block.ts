@@ -1,5 +1,5 @@
 import Point from "../math/Point";
-import { GLOBAL } from "../constants/global";
+import GLOBAL from "../constants/global";
 import { Coordinate } from "../types/models";
 import Vector from "../math/Vector";
 

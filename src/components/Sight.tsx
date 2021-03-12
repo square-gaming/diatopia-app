@@ -2,7 +2,7 @@ import { Container, Graphics } from "@inlet/react-pixi";
 import { filters } from "pixi.js";
 import React, { useCallback } from "react";
 import { video } from "../config/video";
-import { GLOBAL } from "../constants/global";
+import GLOBAL from "../constants/global";
 import Camera from "../controllers/Camera";
 import Sight from "../controllers/Sight";
 import Point from "../math/Point";

@@ -1,5 +1,5 @@
 import Point from "../math/Point";
-import { GLOBAL } from "../constants/global";
+import GLOBAL from "../constants/global";
 
 export function alignPoint(pos: Point): Point {
     return new Point({

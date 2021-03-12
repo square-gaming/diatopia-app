@@ -3,7 +3,7 @@ import { Coordinate } from "../../../types/models";
 import Mob from "./Mob";
 
 class Goat extends Mob {
-    constructor({ name, layer, pos, aspect, isConcrete, id, facing, rotation, speed, mass, health, attributes }: {
+    constructor({ name, layer, pos, aspect, isConcrete, id, facing, rotation, speed, mass, health, attributes, motion }: {
         name: string;
         layer: number;
         pos: Coordinate;
@@ -16,8 +16,9 @@ class Goat extends Mob {
         mass: number;
         health: number;
         attributes: any[];
+        motion: Coordinate
     }) {
-        super({ name, layer, pos, aspect, isConcrete, id, facing, rotation, speed, mass, health, attributes });
+        super({ name, layer, pos, aspect, isConcrete, id, facing, rotation, speed, mass, health, attributes, motion });
     }
 }
 

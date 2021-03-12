@@ -7,7 +7,7 @@ abstract class Mob extends Entity {
     health: number;
     attributes: any[];
 
-    constructor({ name, layer, pos, aspect, isConcrete, id, facing, rotation, speed, mass, health, attributes }: {
+    constructor({ name, layer, pos, aspect, isConcrete, id, facing, rotation, speed, mass, health, attributes, motion }: {
         name: string;
         layer: number;
         pos: Coordinate;
@@ -20,8 +20,9 @@ abstract class Mob extends Entity {
         mass: number;
         health: number;
         attributes: any[];
+        motion: Coordinate;
     }) {
-        super({ name, layer, pos, aspect, isConcrete, id, rotation, speed, facing });
+        super({ name, layer, pos, aspect, isConcrete, id, rotation, speed, facing, motion });
         this.mass = mass;
         this.health = health;
         this.attributes = attributes;

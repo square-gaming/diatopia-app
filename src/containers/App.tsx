@@ -20,7 +20,7 @@ const App = ({username}: {
         if (window.WebSocket) {
 			clientRef.current.connect(
 				{ username },
-				"ws://192.168.0.0:443/websocket",
+				"ws://118.169.80.159:443/websocket",
 				() => {
                     const controller = new Controller();
 

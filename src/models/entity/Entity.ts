@@ -1,4 +1,5 @@
 import Block from "../../core/Block";
+import Vector from "../../math/Vector";
 import { Facing } from "../../types";
 import { EntityInterface, Coordinate } from "../../types/models";
 
@@ -7,8 +8,9 @@ abstract class Entity extends Block implements EntityInterface {
     facing: Facing;
     rotation: number;
     speed: number;
+    motion: Coordinate;
 
-    constructor({ name, layer, pos, aspect, isConcrete, id, facing, rotation, speed }: {
+    constructor({ name, layer, pos, aspect, isConcrete, id, facing, rotation, speed, motion }: {
         name: string;
         layer: number;
         pos: Coordinate;
@@ -18,6 +20,7 @@ abstract class Entity extends Block implements EntityInterface {
         facing: Facing;
         rotation: number;
         speed: number;
+        motion: Coordinate;
     }) {
         super({ name, layer, pos, aspect, isConcrete });
         this.id = id;
@@ -25,6 +28,7 @@ abstract class Entity extends Block implements EntityInterface {
         this.facing = facing;
         this.rotation = rotation;
         this.speed = speed;
+        this.motion = new Vector(motion)
     }
 }
 

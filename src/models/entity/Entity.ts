@@ -8,7 +8,7 @@ abstract class Entity extends Block implements EntityInterface {
     facing: Facing;
     rotation: number;
     speed: number;
-    motion: Coordinate;
+    motion: Vector;
 
     constructor({ name, layer, pos, aspect, isConcrete, id, facing, rotation, speed, motion }: {
         name: string;

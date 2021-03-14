@@ -6,6 +6,7 @@ import Block from "../models/blocks";
 import Point from "../math/Point";
 import Player from "../models/Player";
 import Entity from "../models/entity";
+import Vector from "../math/Vector";
 
 export default function receiver(
     worldRef: React.MutableRefObject<World>,
@@ -45,7 +46,8 @@ export default function receiver(
             break;
         case ACTION_TYPE.PLAYER.MOVE:
             worldRef.current.player.moveTo(new Point(action.payload.pos));
-            worldRef.current.player.facing = action.payload.facing;
+            worldRef.current.player.motion = new Vector(action.payload.motion);
+            worldRef.current.player.rotation = action.payload.rotation;
             break;
         case ACTION_TYPE.PLAYERS.INIT:
             worldRef.current.players = new Map(action.payload.map((player: any) => {
@@ -70,7 +72,9 @@ export default function receiver(
 
             if (playersMoving) {
                 playersMoving.moveTo(new Point(action.payload.pos));
-                playersMoving.facing = action.payload.facing;
+                playersMoving.motion = new Vector(action.payload.motion);
+                playersMoving.rotation = action.payload.rotation;
+                playersMoving.isMotion = action.payload.isMotion;
             } else {
                 console.error(`Player ${action.payload.uid} could NOT be found.`);
             }

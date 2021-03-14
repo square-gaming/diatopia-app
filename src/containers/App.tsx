@@ -9,6 +9,7 @@ import { StoreState } from '../types/context';
 import Controller from '../controllers/control';
 import { World } from '../types/reducers';
 import worldConfig from '../config/world';
+import receiver from '../controllers/receiver';
 
 const App = ({username}: {
     username: string;
@@ -24,7 +25,12 @@ const App = ({username}: {
 				() => {
                     const controller = new Controller();
 
-					controller.setUp(clientRef.current, worldRef.current);
+					controller.setUp(clientRef.current, worldRef.current.player);
+                    clientRef.current.onAction(() => {
+                        clientRef.current.release().then(actions => {
+                            actions.forEach(action => receiver(worldRef, action));
+                        });
+                    });
 				}
 			);
 		} else {
@@ -39,7 +45,6 @@ const App = ({username}: {
         >
             <Scene
                 worldRef={worldRef}
-                clientRef={clientRef}
                 rendererRef={rendererRef}
             />
             <UserInterface />

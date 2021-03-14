@@ -1,13 +1,15 @@
+import { EventEmitter } from "events";
 import ACTION_TYPE from "../constants/actionType";
 import { Action } from "../types";
 
-class Client {
+class Client extends EventEmitter {
     private user: Object | undefined;
     private ws: WebSocket | undefined;
     private buffer: Action[];
     private callback: ((...args: any[]) => void) | undefined;
 
     constructor() {
+        super();
         this.buffer = [];
     }
 
@@ -16,6 +18,10 @@ class Client {
             return this.ws.readyState;
         }
         return WebSocket.CLOSED;
+    }
+
+    public onAction(listener: (actions: Action[]) => void) {
+        this.on('action', listener);
     }
 
     public connect(user: Object, url: string, callback?: (...args: any[]) => void, protocols?: string | string[] | undefined) {
@@ -51,6 +57,7 @@ class Client {
                 const actions: Action[] = JSON.parse(e.data);
 
                 this.buffer = this.buffer.concat(actions);
+                this.emit('action', this.buffer);
             }.bind(this);
             this.ws.onopen = function (this: Client, e: Event) {
                 console.log('WebSocket is connecting', e);

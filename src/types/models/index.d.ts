@@ -31,6 +31,7 @@ export interface DoorInterface extends StructureInterface {
 }
 export interface AbilitiesInfo {
     speed: number;
+    acceleration: number;
 }
 export interface CellInfo {
     pos: Point;

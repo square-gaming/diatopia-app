@@ -51,6 +51,10 @@ class Vector {
         }
     }
 
+    public isZero(): boolean {
+        return this.x === 0 && this.y === 0;
+    }
+    
     public get width() {
         return this.x;
     }
@@ -99,6 +103,26 @@ class Vector {
         }
     }
 
+    
+    subtract(v: Vector): Vector;
+    subtract(x: number, y: number): Vector;
+    subtract(vOrX: Vector | number, y?: number) {
+        if (vOrX instanceof Vector) {
+            this.x -= vOrX.x;
+            this.y -= vOrX.y;
+
+            return this;
+        }
+        if (typeof vOrX === "number" && typeof y === "number") {
+            this.x -= vOrX;
+            this.y -= y;
+
+            return this;
+        }
+        throw Error("Unexpected argument type");
+    }
+
+
     multiply(v: Vector): Vector;
     multiply(x: number): Vector;
     multiply(vOrX: Vector | number) {
@@ -125,7 +149,7 @@ class Vector {
     }
 
 	clone(): Vector {
-		return this.constructor(this.x, this.y);
+		return new Vector(this.x, this.y);
 	}
 
     negate() {
@@ -157,6 +181,13 @@ class Vector {
     public normalize() {
 		return this.divideScalar(this.length || 1);
 	}
+
+    public round() {
+        this.x = Math.round(this.x);
+        this.y = Math.round(this.y);
+
+        return this;
+    }
 }
 
 export default Vector;

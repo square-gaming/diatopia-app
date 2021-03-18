@@ -3,6 +3,7 @@ import Door from "../models/blocks/structure/Door";
 import Surface from "../models/level/Surface";
 import Underground from "../models/level/Underground";
 import Image from "../models/Image";
+import Pig from "../models/entity/mobs/Pig";
 
 export interface Layer {
     visibility: boolean;
@@ -19,4 +20,4 @@ export type Toward = 0 | 1
 export type Level = Surface | Underground
 export type Structure = Wall | Door
 export type BlocksType = Floor | Wall | Door | Torch
-export type EntitiesType = Cow | Goat
+export type EntitiesType = Cow | Goat | Pig

@@ -6,6 +6,7 @@ import Void from "./Void";
 import Torch from "./Torch";
 import Cow from "./Cow";
 import Goat from "./Goat";
+import Pig from "./Pig";
 import Sheep from "./Sheep";
 
 const constructors: {
@@ -19,6 +20,7 @@ const constructors: {
     'Cow': Cow,
     'Goat': Goat,
     'Sheep': Sheep,
+    'Pig': Pig,
     'Object': Void
 };
 

@@ -11,8 +11,9 @@ class Player extends Entity implements PlayerInterface {
     spawnPos: Point;
     abilities: AbilitiesInfo;
     isMotion: boolean;
+    health: number;
 
-    constructor({ name, layer, pos, aspect, isConcrete, id, rotation, speed, spawnPos, facing, motion, isMotion }: {
+    constructor({ name, layer, pos, aspect, isConcrete, id, rotation, speed, spawnPos, facing, motion, isMotion, health }: {
         name: string;
         layer: number;
         pos: Coordinate;
@@ -25,6 +26,7 @@ class Player extends Entity implements PlayerInterface {
         facing: Facing;
         motion: Coordinate;
         isMotion: boolean;
+        health: number;
     }) {
         super({ name, layer, pos, aspect, isConcrete, id, rotation, speed, facing, motion });
         this.spawnPos = new Point(spawnPos);
@@ -33,6 +35,7 @@ class Player extends Entity implements PlayerInterface {
             acceleration: 4
         }
         this.isMotion = isMotion;
+        this.health = health;
     }
 
     protected update() {

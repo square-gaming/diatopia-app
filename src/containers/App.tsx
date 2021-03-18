@@ -21,7 +21,7 @@ const App = ({username}: {
         if (window.WebSocket) {
 			clientRef.current.connect(
 				{ username },
-				"ws://118.169.80.159:443/websocket",
+				"ws://118.169.90.175:443/websocket",
 				() => {
                     const controller = new Controller();
 
@@ -47,7 +47,7 @@ const App = ({username}: {
                 worldRef={worldRef}
                 rendererRef={rendererRef}
             />
-            <UserInterface />
+            <UserInterface worldRef={worldRef} />
         </Viewport>
     );
 };

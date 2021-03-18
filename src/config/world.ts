@@ -26,7 +26,8 @@ const world = {
         spawnPos: { x: 0, y: 0 },
         facing: 0,
         motion: { x: 0, y: 0 },
-        isMotion: false
+        isMotion: false,
+        health: 10
     })
 };
 

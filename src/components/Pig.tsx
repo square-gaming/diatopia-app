@@ -4,7 +4,7 @@ import QuadrupedPng from '../assets/Quadruped0.png';
 import Cow from "../models/entity/mobs/Pig";
 
 const Component = (data: Cow, size: number, x: number, y: number) => {
-    const tilePosition = { x: -32, y: -32 };
+    const tilePosition = { x: -32, y: 0 };
 
     return (
         <TilingSprite

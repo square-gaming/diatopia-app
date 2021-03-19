@@ -21,7 +21,7 @@ const App = ({username}: {
         if (window.WebSocket) {
 			clientRef.current.connect(
 				{ username },
-				"ws://localhost/ws",
+				"ws://localhost:443/websocket",
 				() => {
                     const controller = new Controller();
 

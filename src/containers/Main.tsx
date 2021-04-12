@@ -18,7 +18,7 @@ const Main = ({username, clientRef, rendererRef}: {
         if (window.WebSocket) {
 			clientRef.current.connect(
 				{ username },
-				"ws://localhost:443/websocket",
+				process.env.REACT_APP_WSS_URI,
 				() => {
                     const controller = new Controller();
 

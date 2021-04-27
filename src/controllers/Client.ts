@@ -1,11 +1,10 @@
 import { EventEmitter } from "events";
 import ACTION_TYPE from "../constants/actionType";
-import { Action } from "../types";
-
+import { PayloadAction } from "@reduxjs/toolkit";
 class Client extends EventEmitter {
     private user: Object | undefined;
     private ws: WebSocket | undefined;
-    private buffer: Action[];
+    private buffer: PayloadAction<any>[];
     private callback: ((...args: any[]) => void) | undefined;
 
     constructor() {
@@ -20,7 +19,7 @@ class Client extends EventEmitter {
         return WebSocket.CLOSED;
     }
 
-    public onAction(listener: (actions: Action[]) => void) {
+    public onAction(listener: (actions: PayloadAction<any>[]) => void) {
         this.on('action', listener);
     }
 
@@ -31,13 +30,13 @@ class Client extends EventEmitter {
         this.setUp();
     }
 
-    public release(): Promise<Action[]> {
-        return new Promise((resolve: (value: Action[]) => void) => {
+    public release(): Promise<PayloadAction<any>[]> {
+        return new Promise((resolve: (value: PayloadAction<any>[]) => void) => {
             resolve(this.buffer.splice(0, this.buffer.length));
         });
     }
 
-    public send(action: Action) {
+    public send(action: PayloadAction<any>) {
         if (this.ws) {
             this.ws.send(JSON.stringify(action));
         } else {
@@ -54,7 +53,7 @@ class Client extends EventEmitter {
                 console.error('WebSocket got error', e);
             };
             this.ws.onmessage = function (this: Client, e: MessageEvent) {
-                const actions: Action[] = JSON.parse(e.data);
+                const actions: PayloadAction<any>[] = JSON.parse(e.data);
 
                 this.buffer = this.buffer.concat(actions);
                 this.emit('action', this.buffer);

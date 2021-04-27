@@ -8,7 +8,7 @@ import { Layer } from '../types';
 import { alignPoint } from '../utils';
 
 class Camera {
-  layers: Layer[];
+  layers: { [layerName: string]: Layer };
   fov: number;
   aspect: number;
   near: number;
@@ -22,7 +22,7 @@ class Camera {
     far: number = GLOBAL.UNIT_LENGTH,
     position: Point = new Point(0, 0)
   ) {
-    this.layers = [];
+    this.layers = {};
     this.fov = fov;
     this.aspect = aspect;
     this.near = near;
@@ -113,12 +113,10 @@ class Camera {
   public capture(sources: any[][]) {
     const farPlaneBound = this.farPlaneBound;
     const layers = sources.flat().reduce(
-      (result: { set: Set<number>; layers: Layer[] }, source) => {
+      (result: { set: Set<string>; layers: { [layerName: string]: Layer } }, source) => {
         if (source.pos.isWithin(farPlaneBound, true)) {
-          if (result.set.has(source.layer)) {
-            const layer = result.layers.find(
-              (layer) => layer.order === source.layer
-            );
+          if (result.set.has(source.constructor.name)) {
+            const layer = result.layers[source.constructor.name]
 
             if (layer) {
               layer.images.push(
@@ -126,26 +124,24 @@ class Camera {
               );
             }
           } else {
-            result.layers.push({
+            result.layers[source.constructor.name] = {
               visibility: true,
               images: [
                 new Image(source, this.transform(source.pos), source.layer),
               ],
               order: source.layer,
-            });
-            result.set.add(source.layer);
+            };
+            result.set.add(source.constructor.name);
           }
         }
 
         return result;
       },
       {
-        set: new Set<number>(),
-        layers: [] as Layer[],
+        set: new Set<string>(),
+        layers: {},
       }
     ).layers;
-
-    layers.sort((a, b) => a.order - b.order);
 
     this.layers = layers;
     return layers;

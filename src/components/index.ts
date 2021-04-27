@@ -10,7 +10,7 @@ import Pig from "./Pig";
 import Sheep from "./Sheep";
 
 const constructors: {
-    [name: string]: (data: any, size: number, x: number, y: number) => JSX.Element;
+    [name: string]: (data: any, size: number, x: number, y: number) => any;
 } = {
     'Floor': Floor,
     'Wall': Wall,

@@ -1,7 +1,6 @@
 import controlConfig from '../config/control';
 import Action from '../constants/action';
 import { DIRECTION } from '../constants/direction';
-import Player from '../models/Player';
 import Client from './Client';
 
 class Controller {
@@ -11,22 +10,22 @@ class Controller {
         this.keysPressed = {};
     }
 
-    public setUp(client: Client, player: Player) {
-        document.body.addEventListener('keydown', this.keydownHandler.bind(this, client, player));
-        document.body.addEventListener('keyup', this.keyupHandler.bind(this, client, player));
+    public setUp(client: Client) {
+        document.body.addEventListener('keydown', this.keydownHandler.bind(this, client));
+        document.body.addEventListener('keyup', this.keyupHandler.bind(this, client));
     }
 
-    private keydownHandler(this: Controller, client: Client, player: Player, evt: KeyboardEvent) {
+    private keydownHandler(this: Controller, client: Client, evt: KeyboardEvent) {
         if (!this.keysPressed[evt.key]) {
             this.keysPressed[evt.key] = true;
-            this.moveControl(client, player, evt.key);
+            this.moveControl(client, evt.key);
         }
     }
 
-    private keyupHandler(this: Controller, client: Client, player: Player,  evt: KeyboardEvent) {
+    private keyupHandler(this: Controller, client: Client,  evt: KeyboardEvent) {
         delete this.keysPressed[evt.key]
         this.interactControl(client, evt.key);
-        this.moveControl(client, player, evt.key);
+        this.moveControl(client, evt.key);
     }
 
     private interactControl(client: Client, key: string) {
@@ -35,7 +34,7 @@ class Controller {
         }
     }
 
-    private moveControl(client: Client, player: Player, key: string) {
+    private moveControl(client: Client, key: string) {
         const isMotion = Object.keys(this.keysPressed).length !== 0;
 
         if ((this.keysPressed['ArrowUp'] || this.keysPressed[controlConfig.UP_KEY]) &&

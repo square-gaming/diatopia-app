@@ -1,14 +1,18 @@
-import React from "react";
+import React, { memo } from "react";
 import { TilingSprite } from "@inlet/react-pixi";
-import Player from "../models/Player";
 import playerPng from '../assets/Player0.png';
 
-const Component = (data: Player, size: number, x: number, y: number) => {
+const Component = ({ id, size, x, y }: {
+    id: string;
+    size: number;
+    x: number;
+    y: number;
+}) => {
     const tilePosition = { x: 0, y: 0 };
 
     return (
         <TilingSprite
-            key={data.id}
+            key={id}
             image={playerPng}
             tilePosition={tilePosition}
             width={size}
@@ -19,4 +23,4 @@ const Component = (data: Player, size: number, x: number, y: number) => {
     );
 };
 
-export default Component;
+export default memo(Component);

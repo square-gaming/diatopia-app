@@ -1,17 +1,27 @@
-import React, { useContext, useState } from 'react';
+import React, { useRef, useState } from 'react';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { Provider } from 'react-redux';
 import { video } from '../config/video';
 import GLOBAL from '../constants/global';
 import Viewport from '../components/Viewport';
 import Main from './Main';
-import { StoreContext } from '../context/store';
-import { StoreState } from '../types/context';
 import Title from './Title';
 import STAGE_TYPE from '../constants/stageType';
+import world from "../features/world/worldSlice";
+import Client from '../controllers/Client';
 
+const store = configureStore({
+    reducer: {
+        world
+    },
+    middleware: getDefaultMiddleware({
+        serializableCheck: false
+    })
+});
 const App = ({username}: {
     username: string;
 }) => {
-    const { clientRef, rendererRef } = useContext<StoreState>(StoreContext);
+    const clientRef = useRef(new Client());
     const [stage, setStage] = useState(STAGE_TYPE.TITLE)
 
     return (
@@ -19,6 +29,7 @@ const App = ({username}: {
             width={video.gridSize * GLOBAL.VIEWPORT_COLUMNS}
             height={video.gridSize * GLOBAL.VIEWPORT_ROWS}
         >
+            <Provider store={store}>
             {stage === STAGE_TYPE.TITLE && 
                 <Title
                     setStage={setStage}
@@ -28,9 +39,9 @@ const App = ({username}: {
                 <Main
                     username={username}
                     clientRef={clientRef}
-                    rendererRef={rendererRef}
                 />
             }
+            </Provider>
         </Viewport>
     );
 };

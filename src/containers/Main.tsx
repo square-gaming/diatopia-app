@@ -1,18 +1,16 @@
-import React, { useEffect, useRef } from 'react';
-import Scene from './Scene';
+import React, { useEffect } from 'react';
+import Scene from './scene/Scene';
 import UserInterface from './UserInterface';
 import Controller from '../controllers/control';
-import { World } from '../types/reducers';
-import worldConfig from '../config/world';
 import receiver from '../controllers/receiver';
 import Client from '../controllers/Client';
+import { useAppDispatch } from '../app/hooks';
 
-const Main = ({username, clientRef, rendererRef}: {
+const Main = ({username, clientRef}: {
     username: string;
     clientRef: React.MutableRefObject<Client>;
-    rendererRef: React.MutableRefObject<PIXI.Renderer>;
 }) => {
-    const worldRef = useRef<World>(worldConfig);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         if (window.WebSocket) {
@@ -22,10 +20,10 @@ const Main = ({username, clientRef, rendererRef}: {
 				() => {
                     const controller = new Controller();
 
-					controller.setUp(clientRef.current, worldRef.current.player);
+					controller.setUp(clientRef.current);
                     clientRef.current.onAction(() => {
                         clientRef.current.release().then(actions => {
-                            actions.forEach(action => receiver(worldRef, action));
+                            actions.forEach(action => receiver(dispatch, action));
                         });
                     });
 				}
@@ -33,15 +31,12 @@ const Main = ({username, clientRef, rendererRef}: {
 		} else {
 			alert("WebSocket not supported by your browser!");
 		}
-    }, [clientRef, username]);
+    }, [clientRef, username, dispatch]);
 
     return (
         <>
-            <Scene
-                worldRef={worldRef}
-                rendererRef={rendererRef}
-            />
-            <UserInterface worldRef={worldRef} />
+            <Scene />
+            <UserInterface />
         </>
     )
 };

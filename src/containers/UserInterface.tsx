@@ -1,14 +1,15 @@
 import React from 'react';
 import { Container } from '@inlet/react-pixi';
-import { World } from '../types/reducers';
 import HealthBar from '../components/HealthBar';
+import { selectPlayer } from '../features/world/worldSlice';
+import { useAppSelector } from '../app/hooks';
 
-const UserInterface = ({worldRef}: {
-    worldRef: React.MutableRefObject<World>;
-}) => {
+const UserInterface = () => {
+    const player = useAppSelector(selectPlayer);
+
     return (
         <Container>
-            <HealthBar point={worldRef.current.player.health} />
+            <HealthBar point={player.health} />
         </Container>
     );
 };

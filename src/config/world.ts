@@ -13,7 +13,21 @@ const world = {
         entities: [],
         border: { x: 0, y: 0 }
     }),
-    players: new Map(),
+    players: [new Player({
+        name: 'Player',
+        layer: 2,
+        pos: { x: 0, y: 0 },
+        aspect: { x: 0, y: 0 },
+        isConcrete: true,
+        id: '',
+        rotation: 0,
+        speed: 0,
+        spawnPos: { x: 0, y: 0 },
+        facing: 0,
+        motion: { x: 0, y: 0 },
+        isMotion: false,
+        health: 10
+    })],
     player: new Player({
         name: 'Player',
         layer: 2,
@@ -21,9 +35,13 @@ const world = {
         aspect: { x: 0, y: 0 },
         isConcrete: true,
         id: '',
-        motion: { x: 0, y: 0 },
+        rotation: 0,
+        speed: 0,
         spawnPos: { x: 0, y: 0 },
-        facing: 0
+        facing: 0,
+        motion: { x: 0, y: 0 },
+        isMotion: false,
+        health: 10
     })
 };
 

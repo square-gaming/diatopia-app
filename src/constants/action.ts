@@ -13,7 +13,8 @@ const Action = {
         }
     }),
     interact: () => ({
-        type: ACTION_TYPE.PLAYER.INTERACT
+        type: ACTION_TYPE.PLAYER.INTERACT,
+        payload: null,
     })
 };
 

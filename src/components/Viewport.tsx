@@ -1,20 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Stage } from '@inlet/react-pixi';
-import { StoreContext } from '../context/store';
-import { StoreState } from '../types/context';
 
 const Component = ({ width, height, children }: {
     width: number;
     height: number;
-    children: JSX.Element;
+    children?: React.ReactNode
 }) => {
-    const { rendererRef } = useContext<StoreState>(StoreContext)
-    const handleOnMount = ({renderer}: PIXI.Application) => {
-        rendererRef.current = renderer;
-    };
-
     return (
-        <Stage width={width} height={height} onMount={handleOnMount}>
+        <Stage width={width} height={height}>
             {children}
         </Stage>
     );

@@ -2,7 +2,7 @@ import React from 'react';
 import { Container } from '@inlet/react-pixi';
 import Point from '../math/Point';
 import { video } from '../config/video';
-import { GLOBAL } from '../constants/global';
+import GLOBAL from '../constants/global';
 import * as PIXI from 'pixi.js';
 import { Layer } from '../types';
 import Camera from '../controllers/Camera';

@@ -4,29 +4,86 @@ import { AbilitiesInfo, PlayerInterface, Coordinate } from '../types/models';
 import { Facing } from '../types';
 import Level from './level/Level';
 import Vector from '../math/Vector';
+import { video } from '../config/video';
+import GLOBAL from '../constants/global';
 
 class Player extends Entity implements PlayerInterface {
     spawnPos: Point;
     abilities: AbilitiesInfo;
+    isMotion: boolean;
+    health: number;
 
-    constructor({ name, layer, pos, aspect, isConcrete, id, motion, spawnPos, facing }: {
+    constructor({ name, layer, pos, aspect, isConcrete, id, rotation, speed, spawnPos, facing, motion, isMotion, health }: {
         name: string;
         layer: number;
         pos: Coordinate;
         aspect: Coordinate;
         isConcrete: boolean;
         id: string;
-        motion: Coordinate;
+        rotation: number;
+        speed: number;
         spawnPos: Coordinate;
         facing: Facing;
+        motion: Coordinate;
+        isMotion: boolean;
+        health: number;
     }) {
-        super({ name, layer, pos, aspect, isConcrete, id, motion, facing });
+        super({ name, layer, pos, aspect, isConcrete, id, rotation, speed, facing, motion });
         this.spawnPos = new Point(spawnPos);
         this.abilities = {
-            speed: 4
+            speed: 16,
+            acceleration: 4
         }
+        this.isMotion = isMotion;
+        this.health = health;
     }
 
+    protected update() {
+        super.update();
+        if (this.isMotion) {
+            this.accelerate();
+        } else if (!this.motion.isZero()) {
+            this.brake();
+        }
+        if (!this.motion.isZero()) {
+            this.move(this.motion.clone().multiply(GLOBAL.TICK_PER_SEC / video.fps).round());
+        }
+    }
+    
+    public brake() {
+        const unit = new Vector(Math.cos(this.rotation), -Math.sin(this.rotation));
+    
+        if (
+            Vector.isEqual(
+                this.motion
+                    .clone()
+                    .subtract(unit.clone().multiply(this.abilities.acceleration * GLOBAL.TICK_PER_SEC / video.fps))
+                    .normalize()
+                    .round(),
+                unit.clone().round()
+            )
+        ) {
+            this.motion.subtract(unit.multiply(this.abilities.acceleration * GLOBAL.TICK_PER_SEC / video.fps));
+        } else {
+            this.motion = new Vector(0, 0);
+        }
+      }
+    
+    public accelerate() {
+        const unit = new Vector(Math.cos(this.rotation), -Math.sin(this.rotation));
+    
+        if (
+            this.motion
+                .clone()
+                .add(unit.clone().multiply(this.abilities.acceleration * GLOBAL.TICK_PER_SEC / video.fps)).length >
+            this.abilities.speed * GLOBAL.TICK_PER_SEC / video.fps
+        ) {
+            this.motion = unit.multiply(this.abilities.speed * GLOBAL.TICK_PER_SEC / video.fps);
+        } else {
+            this.motion.add(unit.clone().multiply(this.abilities.acceleration * GLOBAL.TICK_PER_SEC / video.fps));
+        }
+    }
+    
     public move(vec: Vector) {
         this.pos.add(vec);
     }

@@ -1,13 +1,19 @@
-import React from "react";
+import React, { memo } from "react";
 import { TilingSprite } from "@inlet/react-pixi";
 import Wall from "../models/blocks/structure/Wall";
 import wallPng from "../assets/Wall.png";
 
-const Component = (data: Wall, size: number, x: number, y: number) => {
-    const benchmark = -data.type * 96;
+const Component = ({ type, pattern, size, x, y }: {
+    type: number;
+    pattern: number
+    size: number;
+    x: number;
+    y: number;
+}) => {
+    const benchmark = -type * 96;
     const tilePosition = { x: 0, y: 0 };
 
-    switch (data.pattern) {
+    switch (pattern) {
         case Wall.PATTERNS.TOP_LEFT:
             tilePosition.x = 0;
             tilePosition.y = benchmark - 96;
@@ -76,4 +82,4 @@ const Component = (data: Wall, size: number, x: number, y: number) => {
     );
 };
 
-export default Component;
+export default memo(Component);

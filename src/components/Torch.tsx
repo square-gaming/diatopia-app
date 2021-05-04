@@ -1,9 +1,12 @@
-import React from "react";
+import React, { memo } from "react";
 import { TilingSprite } from "@inlet/react-pixi";
 import torchPng from '../assets/Torch.png'; 
-import Torch from "../models/blocks/light/Torch";
 
-const Component = (data: Torch, size: number, x: number, y: number) => {
+const Component = ({ size, x, y }: {
+    size: number;
+    x: number;
+    y: number;
+}) => {
     const tilePosition = { x: 0, y: 0 };
 
     return (
@@ -19,4 +22,4 @@ const Component = (data: Torch, size: number, x: number, y: number) => {
     );
 };
 
-export default Component;
+export default memo(Component);

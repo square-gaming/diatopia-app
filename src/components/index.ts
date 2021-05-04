@@ -5,9 +5,12 @@ import Floor from "./Floor";
 import Void from "./Void";
 import Torch from "./Torch";
 import Cow from "./Cow";
+import Goat from "./Goat";
+import Pig from "./Pig";
+import Sheep from "./Sheep";
 
 const constructors: {
-    [name: string]: (data: any, size: number, x: number, y: number) => JSX.Element;
+    [name: string]: (data: any, size: number, x: number, y: number) => any;
 } = {
     'Floor': Floor,
     'Wall': Wall,
@@ -15,6 +18,9 @@ const constructors: {
     'Torch': Torch,
     'Player': Player,
     'Cow': Cow,
+    'Goat': Goat,
+    'Sheep': Sheep,
+    'Pig': Pig,
     'Object': Void
 };
 

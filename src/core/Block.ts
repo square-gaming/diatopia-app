@@ -1,9 +1,10 @@
 import Point from "../math/Point";
-import { GLOBAL } from "../constants/global";
+import GLOBAL from "../constants/global";
 import { Coordinate } from "../types/models";
 import Vector from "../math/Vector";
+import Element from "./Element";
 
-abstract class Block {
+abstract class Block extends Element {
     name: string;
     layer: number;
     pos: Point;
@@ -19,6 +20,7 @@ abstract class Block {
         aspect: Coordinate;
         isConcrete: boolean;
     }) {
+        super();
         this.name = name;
         this.layer = layer;
         this.pos = pos instanceof Point ? pos : new Point(pos);

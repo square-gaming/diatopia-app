@@ -1,82 +1,53 @@
 import ACTION_TYPE from "../constants/actionType";
-import { Action } from "../types";
-import { World, Payload, PayloadLevelInit } from "../types/reducers";
 import Surface from "../models/level/Surface";
-import Block from "../models/blocks";
-import Point from "../math/Point";
 import Player from "../models/Player";
-import Entity from "../models/entity";
+import { ThunkDispatch, AnyAction, PayloadAction } from "@reduxjs/toolkit";
+import { Dispatch } from "react";
+import { initLevel, updateEntity, updateLightlevel, updateStructure } from "../features/world/worldSlice";
+import { initPlayers, removePlayer, addPlayer, movePlayerById, movePlayer, initPlayer } from "../features/world/worldSlice";
 
 export default function receiver(
-    worldRef: React.MutableRefObject<World>,
-    action: Action
+    dispatch: ThunkDispatch<{
+        players: Map<string, Player>;
+        level: Surface;
+    }, null, AnyAction> & ThunkDispatch<{
+        players: Map<string, Player>;
+        level: Surface;
+    }, undefined, AnyAction> & Dispatch<AnyAction>,
+    action: PayloadAction<any>
 ) {
     switch (action.type) {
         case ACTION_TYPE.LEVEL.INIT:
-            const { time, lightLevel, spawnPos, blocks, entities, border }: Payload<PayloadLevelInit> = action.payload;
-
-            worldRef.current.level = new Surface({
-                time,
-                lightLevel,
-                spawnPos,
-                blocks: blocks.map(block => new Block[block.name](block)),
-                entities: entities.map(entity => new Entity[entity.name](entity)),
-                border
-            });
+            dispatch(initLevel(action.payload));
             break;
         case ACTION_TYPE.LEVEL.UPDATE.LIGHTLEVEL:
-            worldRef.current.level.lightLevel = action.payload;
+            dispatch(updateLightlevel(action.payload));
             break;
         case ACTION_TYPE.LEVEL.UPDATE.STRUCTURE:
-            worldRef.current.level.updateBlock(new Block[action.payload.name](action.payload));
+            dispatch(updateStructure(action.payload));
             break;
         case ACTION_TYPE.ENTITY.MOB.MOVE:
-            worldRef.current.level.updateEntity(new Entity[action.payload.name](action.payload));
+            dispatch(updateEntity(action.payload));
             break;
         case ACTION_TYPE.PLAYER.INIT:
-            const playerInit = worldRef.current.players.get(action.payload);
-
-            if (playerInit) {
-                worldRef.current.player = playerInit;
-            } else {
-                console.error(`Player ${action.payload.id} could NOT be found.`);
-            }
-            
+            dispatch(initPlayer(action.payload));
             break;
         case ACTION_TYPE.PLAYER.MOVE:
-            worldRef.current.player.moveTo(new Point(action.payload.pos));
-            worldRef.current.player.facing = action.payload.facing;
+            dispatch(movePlayer(action.payload));
             break;
         case ACTION_TYPE.PLAYERS.INIT:
-            worldRef.current.players = new Map(action.payload.map((player: any) => {
-                return [player.id, new Player(player)];
-            }));
+            dispatch(initPlayers(action.payload))
             break;
         case ACTION_TYPE.PLAYERS.LEAVE:
-            worldRef.current.players.delete(action.payload);
+            dispatch(removePlayer(action.payload));
             break;
         case ACTION_TYPE.PLAYERS.JOIN:
-            if (worldRef.current.player.id !== action.payload.id) {
-                worldRef.current.players.set(
-                    action.payload.id,
-                    new Player(action.payload)
-                );
-            } else {
-
-            }
+            dispatch(addPlayer(action.payload));
             break;
         case ACTION_TYPE.PLAYERS.MOVE:
-            const playersMoving = worldRef.current.players.get(action.payload.uid);
-
-            if (playersMoving) {
-                playersMoving.moveTo(new Point(action.payload.pos));
-                playersMoving.facing = action.payload.facing;
-            } else {
-                console.error(`Player ${action.payload.uid} could NOT be found.`);
-            }
+            dispatch(movePlayerById(action.payload));
             break;
         default:
             break;
     }
-    console.log(action.type, worldRef.current)
 }

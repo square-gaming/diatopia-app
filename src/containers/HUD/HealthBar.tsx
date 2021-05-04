@@ -2,7 +2,7 @@ import React from 'react';
 import { Container } from '@inlet/react-pixi';
 import HitPoint from './HitPoint';
 
-const Component = ({ point }: { point: number }) => {
+const HealthBar = ({ point }: { point: number }) => {
   const hitPoints = Array.from(
     {
       length: Math.floor(point / 2),
@@ -23,4 +23,4 @@ const Component = ({ point }: { point: number }) => {
   return <Container>{hitPoints}</Container>;
 };
 
-export default Component;
+export default HealthBar;

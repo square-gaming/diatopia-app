@@ -1,8 +1,8 @@
 import React from "react";
 import { TilingSprite } from "@inlet/react-pixi";
-import GUIPng from '../assets/GUI0.png'; 
+import GUIPng from '../../assets/GUI0.png'; 
 
-const Component = ({index, isFull}: {
+const HitPoint = ({index, isFull}: {
     index: number,
     isFull: boolean
 }) => {
@@ -20,4 +20,4 @@ const Component = ({index, isFull}: {
     );
 };
 
-export default Component;
+export default HitPoint;

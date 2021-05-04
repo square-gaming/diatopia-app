@@ -1,7 +1,12 @@
+import Level from "../models/level/Level";
 import Surface from "../models/level/Surface";
 import Player from "../models/Player";
 
-const world = {
+const world: {
+    level: Level;
+    players: Player[];
+    player: Player;
+} = {
     level: new Surface({
         time: {
             lastTime: 0,
@@ -26,7 +31,8 @@ const world = {
         facing: 0,
         motion: { x: 0, y: 0 },
         isMotion: false,
-        health: 10
+        health: 10,
+        inventory: []
     })],
     player: new Player({
         name: 'Player',
@@ -41,7 +47,8 @@ const world = {
         facing: 0,
         motion: { x: 0, y: 0 },
         isMotion: false,
-        health: 10
+        health: 10,
+        inventory: []
     })
 };
 

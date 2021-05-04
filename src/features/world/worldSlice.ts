@@ -93,6 +93,8 @@ export const selectLevel = (state: RootState) => state.world.level;
 
 export const selectPlayer = (state: RootState) => state.world.player;
 
+export const selectPlayerInventory = (state: RootState) => state.world.player.inventory;
+
 export const selectPlayers = (state: RootState) => state.world.players;
 
 export default worldSlice.reducer;

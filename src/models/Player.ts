@@ -6,14 +6,16 @@ import Level from './level/Level';
 import Vector from '../math/Vector';
 import { video } from '../config/video';
 import GLOBAL from '../constants/global';
+import Item from './item/Item';
 
 class Player extends Entity implements PlayerInterface {
     spawnPos: Point;
     abilities: AbilitiesInfo;
     isMotion: boolean;
     health: number;
+    inventory: Item[];
 
-    constructor({ name, layer, pos, aspect, isConcrete, id, rotation, speed, spawnPos, facing, motion, isMotion, health }: {
+    constructor({ name, layer, pos, aspect, isConcrete, id, rotation, speed, spawnPos, facing, motion, isMotion, health, inventory }: {
         name: string;
         layer: number;
         pos: Coordinate;
@@ -27,6 +29,7 @@ class Player extends Entity implements PlayerInterface {
         motion: Coordinate;
         isMotion: boolean;
         health: number;
+        inventory: Item[];
     }) {
         super({ name, layer, pos, aspect, isConcrete, id, rotation, speed, facing, motion });
         this.spawnPos = new Point(spawnPos);
@@ -36,6 +39,7 @@ class Player extends Entity implements PlayerInterface {
         }
         this.isMotion = isMotion;
         this.health = health;
+        this.inventory = inventory;
     }
 
     protected update() {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 import { Container } from '@inlet/react-pixi';
 import Point from '../math/Point';
 import { video } from '../config/video';
@@ -31,7 +31,7 @@ const Component = ({
     children: JSX.Element[];
 }) => {
     const areas = new Light(camera, bound, lightsLayer, structuresLayer, 36).areas;
-    const light = new PIXI.Graphics();
+    const light = useMemo(() => new PIXI.Graphics(), []);
 
     light.clear();
     light.beginFill(0xff0000, skylightLevel * 0.05);
@@ -80,4 +80,4 @@ const Component = ({
     );
 }
 
-export default Component;
+export default memo(Component);

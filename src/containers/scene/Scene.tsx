@@ -9,7 +9,9 @@ import { useApp } from '@inlet/react-pixi';
 import { useAppSelector } from '../../app/hooks';
 import { selectLevel, selectPlayers, selectPlayer } from '../../features/world/worldSlice';
 import useIteration from '../../hooks/useIteration';
-import { Cows, Doors, Floors, Goats, Pigs, Players, Sheeps, Torchs, Walls } from  './withScene';
+import Players from  './Players';
+import Blocks from './Blocks';
+import Entities from './Entities';
 
 const Scene = () => {
     const cameraRef = useRef<Camera>(new Camera(GLOBAL.RENDER_ROWS * video.gridSize));
@@ -21,11 +23,11 @@ const Scene = () => {
 
     cameraRef.current.position = player.pos;
 
-    const layers = cameraRef.current.capture([
-        Object.values(level.blocks),
-        Object.values(level.entities),
+    const layers = cameraRef.current.capture({
+        blocks: Object.values(level.blocks),
+        entities: Object.values(level.entities),
         players
-    ]);
+    });
 
     return (
         <LightMask
@@ -33,26 +35,20 @@ const Scene = () => {
             camera={cameraRef.current}
             skylightLevel={level.lightLevel}
             bound={new Vector(video.gridSize * GLOBAL.RENDER_COLUMNS, video.gridSize * GLOBAL.RENDER_ROWS)}
-            lightsLayer={layers.Torch}
-            structuresLayer={layers.Wall}
+            lightsLayer={layers.blocks}
+            structuresLayer={layers.blocks}
             blurSize={4}
             offset={cameraRef.current.offset}
         >
-            <Floors layer={layers.Floor} />
-            <Walls layer={layers.Wall} />
-            <Doors layer={layers.Door} />
-            <Players layer={layers.Player} />
-            <Cows layer={layers.Cow} />
-            <Goats layer={layers.Goat} />
-            <Pigs layer={layers.Pig} />
-            <Sheeps layer={layers.Sheep} />
-            <Torchs layer={layers.Torch} />
+            <Blocks layer={layers.blocks} />
+            <Entities layer={layers.entities} />
+            <Players layer={layers.players} />
             <Sight
                 camera={cameraRef.current}
                 bound={new Vector(video.gridSize * GLOBAL.RENDER_COLUMNS, video.gridSize * GLOBAL.RENDER_ROWS)}
                 observer={player.pos}
                 blurSize={4}
-                structuresLayer={layers.Wall}
+                structuresLayer={layers.blocks}
             />
         </LightMask>
     );

@@ -110,38 +110,25 @@ class Camera {
     }
   }
 
-  public capture(sources: any[][]) {
+  public capture(sources: { [type: string]: any[] }) {
     const farPlaneBound = this.farPlaneBound;
-    const layers = sources.flat().reduce(
-      (result: { set: Set<string>; layers: { [layerName: string]: Layer } }, source) => {
-        if (source.pos.isWithin(farPlaneBound, true)) {
-          if (result.set.has(source.constructor.name)) {
-            const layer = result.layers[source.constructor.name]
+    const layers: { [type: string]: any } = {};
+    let i = 0;
 
-            if (layer) {
-              layer.images.push(
-                new Image(source, this.transform(source.pos), source.layer)
-              );
-            }
-          } else {
-            result.layers[source.constructor.name] = {
-              visibility: true,
-              images: [
-                new Image(source, this.transform(source.pos), source.layer),
-              ],
-              order: source.layer,
-            };
-            result.set.add(source.constructor.name);
-          }
-        }
-
-        return result;
-      },
-      {
-        set: new Set<string>(),
-        layers: {},
+    for (const key in sources) {
+      if (Object.prototype.hasOwnProperty.call(sources, key)) {
+        const elements = sources[key];
+        
+        layers[key] = {
+          visibilty: true,
+          images: elements
+            .filter(element => element.pos.isWithin(farPlaneBound, true))
+            .map(element => new Image(element, this.transform(element.pos), element.layer))
+            .sort((a, b) => a.layer - b.layer),
+          order: i++
+        };
       }
-    ).layers;
+    }
 
     this.layers = layers;
     return layers;

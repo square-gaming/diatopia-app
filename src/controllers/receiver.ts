@@ -50,6 +50,4 @@ export default function receiver(
         default:
             break;
     }
-    console.log(action)
-    // console.log(action.type, worldRef.current)
 }

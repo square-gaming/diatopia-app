@@ -1,10 +1,10 @@
 import React, { memo } from "react";
 import { TilingSprite } from "@inlet/react-pixi";
-import Door from "../models/blocks/structure/Door";
+import DoorClass from "../models/blocks/structure/Door";
 import doorClosePng from '../assets/Door0.png'; 
 import doorOpenPng from '../assets/Door1.png'; 
 
-const Component = ({ type, pattern, isOpen, size, x, y }: {
+const Door = ({ type, pattern, isOpen, size, x, y }: {
     type: number;
     pattern: number;
     isOpen: boolean;
@@ -16,11 +16,11 @@ const Component = ({ type, pattern, isOpen, size, x, y }: {
     const tilePosition = { x: 0, y: 0 };
     
     switch (pattern) {
-        case Door.PATTERNS.NORTH_SOUTH:
+        case DoorClass.PATTERNS.NORTH_SOUTH:
             tilePosition.x = 0;
             tilePosition.y = benchmark;
             break;
-        case Door.PATTERNS.EAST_WEST:
+        case DoorClass.PATTERNS.EAST_WEST:
             tilePosition.x = -32;
             tilePosition.y = benchmark;
             break;
@@ -41,4 +41,4 @@ const Component = ({ type, pattern, isOpen, size, x, y }: {
     );
 };
 
-export default memo(Component);
+export default memo(Door);

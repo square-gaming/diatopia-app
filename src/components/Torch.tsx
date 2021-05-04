@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import { TilingSprite } from "@inlet/react-pixi";
 import torchPng from '../assets/Torch.png'; 
 
-const Component = ({ size, x, y }: {
+const Torch = ({ size, x, y }: {
     size: number;
     x: number;
     y: number;
@@ -22,4 +22,4 @@ const Component = ({ size, x, y }: {
     );
 };
 
-export default memo(Component);
+export default memo(Torch);

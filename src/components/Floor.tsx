@@ -1,9 +1,9 @@
 import React, { memo } from "react";
 import { TilingSprite } from "@inlet/react-pixi";
-import Floor from "../models/blocks/Floor";
+import FloorClass from "../models/blocks/Floor";
 import floorPng from "../assets/Floor.png";
 
-const Component = ({ type, pattern, size, x, y }: {
+const Floor = ({ type, pattern, size, x, y }: {
     type: number;
     pattern: number;
     size: number;
@@ -14,71 +14,71 @@ const Component = ({ type, pattern, size, x, y }: {
     const tilePosition = { x: 0, y: 0 };
 
     switch (pattern) {
-        case Floor.PATTERNS.GRID.TOP_LEFT:
+        case FloorClass.PATTERNS.GRID.TOP_LEFT:
             tilePosition.x = 0;
             tilePosition.y = benchmark - 96;
             break;
-        case Floor.PATTERNS.GRID.TOP_CENTER:
+        case FloorClass.PATTERNS.GRID.TOP_CENTER:
             tilePosition.x = -32;
             tilePosition.y = benchmark - 96;
             break;
-        case Floor.PATTERNS.GRID.TOP_RIGHT:
+        case FloorClass.PATTERNS.GRID.TOP_RIGHT:
             tilePosition.x = -64;
             tilePosition.y = benchmark - 96;
             break;
-        case Floor.PATTERNS.GRID.MIDDLE_LEFT:
+        case FloorClass.PATTERNS.GRID.MIDDLE_LEFT:
             tilePosition.x = 0;
             tilePosition.y = benchmark - 128;
             break;
-        case Floor.PATTERNS.GRID.MIDDLE_CENTER:
+        case FloorClass.PATTERNS.GRID.MIDDLE_CENTER:
             tilePosition.x = -32;
             tilePosition.y = benchmark - 128;
             break;
-        case Floor.PATTERNS.GRID.MIDDLE_RIGHT:
+        case FloorClass.PATTERNS.GRID.MIDDLE_RIGHT:
             tilePosition.x = -64;
             tilePosition.y = benchmark - 128;
             break;
-        case Floor.PATTERNS.GRID.BOTTOM_LEFT:
+        case FloorClass.PATTERNS.GRID.BOTTOM_LEFT:
             tilePosition.x = 0;
             tilePosition.y = benchmark - 160;
             break;
-        case Floor.PATTERNS.GRID.BOTTOM_CENTER:
+        case FloorClass.PATTERNS.GRID.BOTTOM_CENTER:
             tilePosition.x = -32;
             tilePosition.y = benchmark - 160;
             break;
-        case Floor.PATTERNS.GRID.BOTTOM_RIGHT:
+        case FloorClass.PATTERNS.GRID.BOTTOM_RIGHT:
             tilePosition.x = -64;
             tilePosition.y = benchmark - 160;
             break;
-        case Floor.PATTERNS.VERTICAL.TOP:
+        case FloorClass.PATTERNS.VERTICAL.TOP:
             tilePosition.x = -96;
             tilePosition.y = benchmark - 96;
             break;
-        case Floor.PATTERNS.VERTICAL.MIDDLE:
+        case FloorClass.PATTERNS.VERTICAL.MIDDLE:
             tilePosition.x = -96;
             tilePosition.y = benchmark - 128;
             break;
-        case Floor.PATTERNS.VERTICAL.BOTTOM:
+        case FloorClass.PATTERNS.VERTICAL.BOTTOM:
             tilePosition.x = -96;
             tilePosition.y = benchmark - 160;
             break;
-        case Floor.PATTERNS.HORIZONTAL.LEFT:
+        case FloorClass.PATTERNS.HORIZONTAL.LEFT:
             tilePosition.x = -128;
             tilePosition.y = benchmark - 128;
             break;
-        case Floor.PATTERNS.HORIZONTAL.MIDDLE:
+        case FloorClass.PATTERNS.HORIZONTAL.MIDDLE:
             tilePosition.x = -160;
             tilePosition.y = benchmark - 128;
             break;
-        case Floor.PATTERNS.HORIZONTAL.RIGHT:
+        case FloorClass.PATTERNS.HORIZONTAL.RIGHT:
             tilePosition.x = -192;
             tilePosition.y = benchmark - 128;
             break;
-        case Floor.PATTERNS.INDIVIDUAL:
+        case FloorClass.PATTERNS.INDIVIDUAL:
             tilePosition.x = -160;
             tilePosition.y = benchmark - 96;
             break;
-        case Floor.PATTERNS.INTERSECTION:
+        case FloorClass.PATTERNS.INTERSECTION:
             tilePosition.x = -160;
             tilePosition.y = benchmark - 160;
             break;
@@ -98,4 +98,4 @@ const Component = ({ type, pattern, size, x, y }: {
     );
 };
 
-export default memo(Component);
+export default memo(Floor);

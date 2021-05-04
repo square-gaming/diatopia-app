@@ -1,9 +1,9 @@
 import React, { memo } from "react";
 import { TilingSprite } from "@inlet/react-pixi";
-import Wall from "../models/blocks/structure/Wall";
+import WallClass from "../models/blocks/structure/Wall";
 import wallPng from "../assets/Wall.png";
 
-const Component = ({ type, pattern, size, x, y }: {
+const Wall = ({ type, pattern, size, x, y }: {
     type: number;
     pattern: number
     size: number;
@@ -14,55 +14,55 @@ const Component = ({ type, pattern, size, x, y }: {
     const tilePosition = { x: 0, y: 0 };
 
     switch (pattern) {
-        case Wall.PATTERNS.TOP_LEFT:
+        case WallClass.PATTERNS.TOP_LEFT:
             tilePosition.x = 0;
             tilePosition.y = benchmark - 96;
             break;
-        case Wall.PATTERNS.TOP_RIGHT:
+        case WallClass.PATTERNS.TOP_RIGHT:
             tilePosition.x = -64;
             tilePosition.y = benchmark - 96;
             break;
-        case Wall.PATTERNS.BOTTOM_LEFT:
+        case WallClass.PATTERNS.BOTTOM_LEFT:
             tilePosition.x = 0;
             tilePosition.y = benchmark - 160;
             break;
-        case Wall.PATTERNS.BOTTOM_RIGHT:
+        case WallClass.PATTERNS.BOTTOM_RIGHT:
             tilePosition.x = -64;
             tilePosition.y = benchmark - 160;
             break;
-        case Wall.PATTERNS.NORTH_SOUTH:
+        case WallClass.PATTERNS.NORTH_SOUTH:
             tilePosition.x = 0;
             tilePosition.y = benchmark - 128;
             break;
-        case Wall.PATTERNS.EAST_WEST:
+        case WallClass.PATTERNS.EAST_WEST:
             tilePosition.x = -32;
             tilePosition.y = benchmark - 96;
             break;
-        case Wall.PATTERNS.INDIVIDUAL:
+        case WallClass.PATTERNS.INDIVIDUAL:
             tilePosition.x = -32;
             tilePosition.y = benchmark -128;
             break;
-        case Wall.PATTERNS.INTERSECTION:
+        case WallClass.PATTERNS.INTERSECTION:
             tilePosition.x = -128;
             tilePosition.y = benchmark - 128;
             break;
-        case Wall.PATTERNS.T:
+        case WallClass.PATTERNS.T:
             tilePosition.x = -128;
             tilePosition.y = benchmark - 96;
             break;
-        case Wall.PATTERNS.T_90_DEG:
+        case WallClass.PATTERNS.T_90_DEG:
             tilePosition.x = -160;
             tilePosition.y = benchmark - 128;
             break;
-        case Wall.PATTERNS.T_180_DEG:
+        case WallClass.PATTERNS.T_180_DEG:
             tilePosition.x = -128;
             tilePosition.y = benchmark - 160;
             break;
-        case Wall.PATTERNS.T_270_DEG:
+        case WallClass.PATTERNS.T_270_DEG:
             tilePosition.x = -96;
             tilePosition.y = benchmark - 128;
             break;
-        case Wall.PATTERNS.SURFACE:
+        case WallClass.PATTERNS.SURFACE:
             tilePosition.x = -96;
             tilePosition.y = benchmark -96;
             break;
@@ -82,4 +82,4 @@ const Component = ({ type, pattern, size, x, y }: {
     );
 };
 
-export default memo(Component);
+export default memo(Wall);

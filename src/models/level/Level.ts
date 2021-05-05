@@ -32,13 +32,13 @@ abstract class Level implements LevelInterface {
 
     public getBlock(type: string, pos: Point) {
         return this.blocks.find(block => {
-            return block.name === type && Point.isEqual(block.pos, pos)
+            return block.id === type && Point.isEqual(block.pos, pos)
         });
     }
     
     public updateBlock(source: BlocksType) {
         const index = this.blocks.findIndex(block => {
-            return block.name === source.name
+            return block.id === source.id
                 && Point.isEqual(source.pos, block.pos);
         });
         
@@ -47,7 +47,7 @@ abstract class Level implements LevelInterface {
 
     public updateEntity(source: EntitiesType) {
         const index = this.entities.findIndex(entity => {
-            return entity.id === source.id
+            return entity.uid === source.uid
         });
         
         this.entities.splice(index, 1, source);

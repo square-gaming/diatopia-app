@@ -15,13 +15,13 @@ class Player extends Entity implements PlayerInterface {
     health: number;
     inventory: Item[];
 
-    constructor({ name, layer, pos, aspect, isConcrete, id, rotation, speed, spawnPos, facing, motion, isMotion, health, inventory }: {
-        name: string;
+    constructor({ id, layer, pos, aspect, isConcrete, uid, rotation, speed, spawnPos, facing, motion, isMotion, health, inventory }: {
+        id: string;
         layer: number;
         pos: Coordinate;
         aspect: Coordinate;
         isConcrete: boolean;
-        id: string;
+        uid: string;
         rotation: number;
         speed: number;
         spawnPos: Coordinate;
@@ -31,7 +31,7 @@ class Player extends Entity implements PlayerInterface {
         health: number;
         inventory: Item[];
     }) {
-        super({ name, layer, pos, aspect, isConcrete, id, rotation, speed, facing, motion });
+        super({ id, layer, pos, aspect, isConcrete, uid, rotation, speed, facing, motion });
         this.spawnPos = new Point(spawnPos);
         this.abilities = {
             speed: 16,

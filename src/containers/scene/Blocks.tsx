@@ -10,19 +10,19 @@ const Blocks = ({ layer }: {
     layer: Layer;
 }) => {
     const batch = layer?.images.map((image) => {
-        switch (image.target.name) {
-            case 'Floor':
+        switch (image.target.id) {
+            case 'diatopia:floor':
                 return <Floor
-                    key={`${image.target.name}(${image.position.x},${image.position.y})`}
+                    key={`${image.target.id}(${image.position.x},${image.position.y})`}
                     type={image.target.type}
                     pattern={image.target.pattern}
                     size={video.gridSize}
                     x={image.position.x}
                     y={image.position.y}
                 />
-            case 'Door':
+            case 'diatopia:door':
                 return <Door
-                    key={`${image.target.name}(${image.position.x},${image.position.y})`}
+                    key={`${image.target.id}(${image.position.x},${image.position.y})`}
                     type={image.target.type}
                     pattern={image.target.pattern}
                     isOpen={image.target.isOpen}
@@ -30,18 +30,18 @@ const Blocks = ({ layer }: {
                     x={image.position.x}
                     y={image.position.y}
                 />
-            case 'Wall':
+            case 'diatopia:wall':
                 return <Wall
-                    key={`${image.target.name}(${image.position.x},${image.position.y})`}
+                    key={`${image.target.id}(${image.position.x},${image.position.y})`}
                     type={image.target.type}
                     pattern={image.target.pattern}
                     size={video.gridSize}
                     x={image.position.x}
                     y={image.position.y}
                 />
-            case 'Torch':
+            case 'diatopia:torch':
                 return <Torch
-                    key={`${image.target.name}(${image.position.x},${image.position.y})`}
+                    key={`${image.target.id}(${image.position.x},${image.position.y})`}
                     size={video.gridSize}
                     x={image.position.x}
                     y={image.position.y}

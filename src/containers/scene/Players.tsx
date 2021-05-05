@@ -8,8 +8,8 @@ const Players = ({ layer }: {
 }) => {
     const batch = layer?.images.map((image) =>
         <Player
-            key={image.target.id}
-            id={image.target.id}
+            key={image.target.uid}
+            id={image.target.uid}
             size={video.gridSize}
             x={image.position.x}
             y={image.position.y}

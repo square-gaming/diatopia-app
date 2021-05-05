@@ -5,23 +5,23 @@ import Vector from "../math/Vector";
 import Element from "./Element";
 
 abstract class Block extends Element {
-    name: string;
+    id: string;
     layer: number;
     pos: Point;
     aspect: Vector;
     isConcrete: boolean;
 
     constructor({
-        name, layer, pos, aspect, isConcrete
+        id, layer, pos, aspect, isConcrete
     }: {
-        name: string;
+        id: string;
         layer: number;
         pos: Coordinate;
         aspect: Coordinate;
         isConcrete: boolean;
     }) {
         super();
-        this.name = name;
+        this.id = id;
         this.layer = layer;
         this.pos = pos instanceof Point ? pos : new Point(pos);
         this.aspect = new Vector(aspect);

@@ -16,7 +16,7 @@ class Door extends Structure implements DoorInterface {
     isOpen: boolean;
 
     constructor({
-        name,
+        id,
         layer,
         pos,
         aspect,
@@ -27,7 +27,7 @@ class Door extends Structure implements DoorInterface {
         toward,
         isOpen,
     }: {
-        name: string;
+        id: string;
         layer: number;
         pos: Coordinate;
         aspect: Coordinate;
@@ -42,7 +42,7 @@ class Door extends Structure implements DoorInterface {
         }[]
     }) {
         super({
-            name,
+            id,
             layer,
             pos,
             aspect,

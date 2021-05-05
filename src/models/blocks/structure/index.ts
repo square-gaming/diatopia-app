@@ -4,8 +4,8 @@ import Wall from "./Wall";
 const constructors: {
     [name: string]: any;
 } = {
-    'Wall': Wall,
-    'Door': Door
+    'diatopia:wall': Wall,
+    'diatopia:door': Door
 };
 
 export default constructors;

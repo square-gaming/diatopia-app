@@ -35,8 +35,8 @@ class Floor extends Block{
     type: number;
     pattern: number;
     
-    constructor({ name, layer, pos, aspect, isConcrete, type, pattern }: {
-        name: string;
+    constructor({ id, layer, pos, aspect, isConcrete, type, pattern }: {
+        id: string;
         layer: number;
         pos: Coordinate;
         aspect: Coordinate;
@@ -44,7 +44,7 @@ class Floor extends Block{
         type: number;
         pattern: number;
     }) {
-        super({ name, layer, pos, aspect, isConcrete });
+        super({ id, layer, pos, aspect, isConcrete });
         this.type = type;
         this.pattern = pattern;
     }

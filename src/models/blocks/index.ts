@@ -7,11 +7,11 @@ import Torch from "./light/Torch";
 const constructors: {
     [blocksType: string]: any;
 } = {
-    'Floor': Floor,
-    'Wall': Wall,
-    'Door': Door,
-    'Torch': Torch,
-    'Player': Player
+    'diatopia:floor': Floor,
+    'diatopia:wall': Wall,
+    'diatopia:door': Door,
+    'diatopia:torch': Torch,
+    'diatopia:player': Player
 };
 
 export default constructors;

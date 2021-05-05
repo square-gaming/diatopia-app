@@ -3,13 +3,13 @@ import { Coordinate } from "../../../types/models";
 import Mob from "./Mob";
 
 class Pig extends Mob {
-    constructor({ name, layer, pos, aspect, isConcrete, id, facing, rotation, speed, mass, health, attributes, motion }: {
-        name: string;
+    constructor({ id, layer, pos, aspect, isConcrete, uid, facing, rotation, speed, mass, health, attributes, motion }: {
+        id: string;
         layer: number;
         pos: Coordinate;
         aspect: Coordinate;
         isConcrete: boolean;
-        id: string;
+        uid: string;
         facing: Facing;
         rotation: number;
         speed: number;
@@ -18,7 +18,7 @@ class Pig extends Mob {
         attributes: any[];
         motion: Coordinate;
     }) {
-        super({ name, layer, pos, aspect, isConcrete, id, facing, rotation, speed, mass, health, attributes, motion });
+        super({ id, layer, pos, aspect, isConcrete, uid, facing, rotation, speed, mass, health, attributes, motion });
     }
 }
 

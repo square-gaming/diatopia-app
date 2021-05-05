@@ -18,8 +18,8 @@ class Wall extends Structure implements WallInterface {
         BOTTOM_RIGHT: 12
     }
 
-    constructor({ name, layer, pos, aspect, isConcrete, type, pattern, frames }: {
-        name: string;
+    constructor({ id, layer, pos, aspect, isConcrete, type, pattern, frames }: {
+        id: string;
         layer: number;
         pos: Coordinate;
         aspect: Coordinate;
@@ -32,7 +32,7 @@ class Wall extends Structure implements WallInterface {
         }[]
     }) {
         super({
-            name,
+            id,
             layer,
             pos,
             aspect,

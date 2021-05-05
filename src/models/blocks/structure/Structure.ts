@@ -9,7 +9,7 @@ abstract class Structure extends Block implements StructureInterface {
     frames: Segment[];
 
     constructor({
-        name,
+        id,
         layer,
         pos,
         aspect,
@@ -18,7 +18,7 @@ abstract class Structure extends Block implements StructureInterface {
         isConcrete,
         frames
     }: {
-        name: string;
+        id: string;
         layer: number;
         pos: Point | Coordinate;
         aspect: Coordinate;
@@ -27,7 +27,7 @@ abstract class Structure extends Block implements StructureInterface {
         pattern: number;
         frames: { start: Coordinate; end: Coordinate }[];
     }) {
-        super({ name, layer, pos, aspect, isConcrete });
+        super({ id, layer, pos, aspect, isConcrete });
         this.type = type;
         this.pattern = pattern;
         this.isConcrete = isConcrete;

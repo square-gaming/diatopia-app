@@ -2,15 +2,15 @@ import { Coordinate } from "../../../types/models";
 import Light from "./Light";
 
 class Torch extends Light {
-    constructor({ name, layer, pos, aspect, isConcrete, lightLevel }: {
-        name: string;
+    constructor({ id, layer, pos, aspect, isConcrete, lightLevel }: {
+        id: string;
         layer: number;
         pos: Coordinate;
         aspect: Coordinate;
         isConcrete: boolean;
         lightLevel: number;
     }) {
-        super({ name, layer, pos, aspect, isConcrete, lightLevel });
+        super({ id, layer, pos, aspect, isConcrete, lightLevel });
     }
 }
 

@@ -20,8 +20,8 @@ export const worldSlice = createSlice({
         time,
         lightLevel,
         spawnPos,
-        blocks: blocks.map(block => new Block[block.name](block)),
-        entities: entities.map(entity => new Entity[entity.name](entity)),
+        blocks: blocks.map(block => new Block[block.id](block)),
+        entities: entities.map(entity => new Entity[entity.id](entity)),
         border
       });
     },
@@ -29,18 +29,18 @@ export const worldSlice = createSlice({
       state.level.lightLevel = action.payload;
     },
     updateStructure(state, action: PayloadAction<any>) {
-      state.level.updateBlock(new Block[action.payload.name](action.payload));
+      state.level.updateBlock(new Block[action.payload.id](action.payload));
     },
     updateEntity(state, action: PayloadAction<any>) {
-      state.level.updateEntity(new Entity[action.payload.name](action.payload));
+      state.level.updateEntity(new Entity[action.payload.id](action.payload));
     },
     initPlayer(state, action: PayloadAction<any>) {
-      const player = state.players.find((player) => player.id === action.payload);
+      const player = state.players.find((player) => player.uid === action.payload);
 
       if (player) {
           state.player = player;
       } else {
-          console.error(`Player ${action.payload.id} could NOT be found.`);
+          console.error(`Player ${action.payload.uid} could NOT be found.`);
       }
     },
     movePlayer(state, action: PayloadAction<any>) {
@@ -52,17 +52,17 @@ export const worldSlice = createSlice({
       state.players = action.payload.map((player: Player) => new Player(player));
     },
     removePlayer(state, action: PayloadAction<any>) {
-      const i = state.players.findIndex((player) => player.id === action.payload);
+      const i = state.players.findIndex((player) => player.uid === action.payload);
 
       state.players.splice(i, 1);
     },
     addPlayer(state, action: PayloadAction<any>) {
-      if (state.players.findIndex((player) => player.id === action.payload.id) === -1) {
+      if (state.players.findIndex((player) => player.uid === action.payload.uid) === -1) {
         state.players.push(new Player(action.payload));
       }
     },
     movePlayerById(state, action: PayloadAction<any>) {
-      const player = state.players.find((player) => player.id === action.payload.uid);
+      const player = state.players.find((player) => player.uid === action.payload.uid);
 
       if (player) {
           player.moveTo(new Point(action.payload.pos));

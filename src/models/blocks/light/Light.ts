@@ -5,14 +5,14 @@ abstract class Light extends Block {
     lightLevel: number;
 
     constructor({
-        name,
+        id,
         layer,
         pos,
         aspect,
         isConcrete,
         lightLevel
     }: {
-        name: string;
+        id: string;
         layer: number;
         pos: Coordinate;
         aspect: Coordinate;
@@ -20,7 +20,7 @@ abstract class Light extends Block {
         lightLevel: number;
     }) {
         super({
-            name,
+            id,
             layer,
             pos,
             aspect,

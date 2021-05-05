@@ -19,12 +19,12 @@ const world: {
         border: { x: 0, y: 0 }
     }),
     players: [new Player({
-        name: 'Player',
+        id: 'diatopia:player',
         layer: 2,
         pos: { x: 0, y: 0 },
         aspect: { x: 0, y: 0 },
         isConcrete: true,
-        id: '',
+        uid: '',
         rotation: 0,
         speed: 0,
         spawnPos: { x: 0, y: 0 },
@@ -35,12 +35,12 @@ const world: {
         inventory: []
     })],
     player: new Player({
-        name: 'Player',
+        id: 'diatopia:player',
         layer: 2,
         pos: { x: 0, y: 0 },
         aspect: { x: 0, y: 0 },
         isConcrete: true,
-        id: '',
+        uid: '',
         rotation: 0,
         speed: 0,
         spawnPos: { x: 0, y: 0 },

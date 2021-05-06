@@ -1,10 +1,10 @@
 import Item from "./Item";
 
 class Door extends Item {
-    constructor(
+    constructor({ count, slot }: {
         count: number,
         slot?: number,
-    ) {
+    }) {
         super({id: 'diatopia:door', count, slot});
     }
 }

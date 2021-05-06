@@ -5,6 +5,7 @@ import Block from "../../models/blocks";
 import Point from "../../math/Point";
 import Vector from "../../math/Vector";
 import Entity from "../../models/entity";
+import Item from "../../models/item";
 import Surface from "../../models/level/Surface";
 import Player from "../../models/Player";
 import { PayloadLevelInit } from "../../types/reducers";
@@ -33,6 +34,9 @@ export const worldSlice = createSlice({
     },
     updateEntity(state, action: PayloadAction<any>) {
       state.level.updateEntity(new Entity[action.payload.id](action.payload));
+    },
+    clearEntity(state, action: PayloadAction<any>) {
+      state.level.clear(action.payload);
     },
     initPlayer(state, action: PayloadAction<any>) {
       const player = state.players.find((player) => player.uid === action.payload);
@@ -72,7 +76,28 @@ export const worldSlice = createSlice({
       } else {
           console.error(`Player ${action.payload.uid} could NOT be found.`);
       }
-    }
+    },
+    playersObtain(state, action: PayloadAction<any>) {
+      const player = state.players.find((player) => player.uid === action.payload.uid);
+
+      if (player) {
+        const found = player.inventory.find((item) => item.id === action.payload.item.id);
+
+        if (found) {
+          player.inventory = player.inventory.map(item => {
+            if (item.slot === action.payload.item.slot) {
+              return new Item[action.payload.item.id](action.payload.item);
+            } else {
+              return item;
+            }
+          });
+        } else {
+          player.inventory = [...player.inventory, new Item[action.payload.item.id](action.payload.item)];
+        }
+      } else {
+        console.error(`Player ${action.payload.uid} could NOT be found.`);
+      }
+    },
   },
 });
 
@@ -81,12 +106,14 @@ export const {
   updateEntity,
   updateLightlevel,
   updateStructure,
+  clearEntity,
   initPlayer,
   movePlayer,
   initPlayers,
   removePlayer,
   addPlayer,
-  movePlayerById
+  movePlayerById,
+  playersObtain
 } = worldSlice.actions;
 
 export const selectLevel = (state: RootState) => state.world.level;

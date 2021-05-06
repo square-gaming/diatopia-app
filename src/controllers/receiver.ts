@@ -3,7 +3,7 @@ import Surface from "../models/level/Surface";
 import Player from "../models/Player";
 import { ThunkDispatch, AnyAction, PayloadAction } from "@reduxjs/toolkit";
 import { Dispatch } from "react";
-import { initLevel, updateEntity, updateLightlevel, updateStructure } from "../features/world/worldSlice";
+import { clearEntity, initLevel, playersObtain, updateEntity, updateLightlevel, updateStructure } from "../features/world/worldSlice";
 import { initPlayers, removePlayer, addPlayer, movePlayerById, movePlayer, initPlayer } from "../features/world/worldSlice";
 
 export default function receiver(
@@ -26,6 +26,9 @@ export default function receiver(
         case ACTION_TYPE.LEVEL.UPDATE.STRUCTURE:
             dispatch(updateStructure(action.payload));
             break;
+        case ACTION_TYPE.LEVEL.CLEAR.ENTITY:
+            dispatch(clearEntity(action.payload));
+            break;
         case ACTION_TYPE.ENTITY.MOB.MOVE:
             dispatch(updateEntity(action.payload));
             break;
@@ -46,6 +49,9 @@ export default function receiver(
             break;
         case ACTION_TYPE.PLAYERS.MOVE:
             dispatch(movePlayerById(action.payload));
+            break;
+        case ACTION_TYPE.PLAYERS.OBTAIN:
+            dispatch(playersObtain(action.payload));
             break;
         default:
             break;

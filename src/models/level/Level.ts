@@ -52,6 +52,17 @@ abstract class Level implements LevelInterface {
         
         this.entities.splice(index, 1, source);
     }
+
+    public clear(target: EntitiesType) {
+        const found = this.entities.find((entity) => entity.uid === target.uid);
+    
+        if (found) {
+          found.destroy();
+          this.entities = this.entities.filter(entity => entity.uid !== found.uid);
+        } else {
+          console.error();
+        }
+    }
 }
 
 export default Level;

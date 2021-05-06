@@ -7,7 +7,10 @@ const ACTION_TYPE = {
         UPDATE: {
             LIGHTLEVEL: 'LEVEL_UPDATE_LIGHTLEVEL',
             STRUCTURE:'LEVEL_UPDATE_STRUCTURE',
-        }
+        },
+        CLEAR: {
+            ENTITY: 'LEVEL_CLEAR_ENTITY',
+        },
     },
     ENTITY: {
         MOB: {
@@ -24,7 +27,8 @@ const ACTION_TYPE = {
         INIT: 'PLAYERS_INIT',
         JOIN: 'PLAYERS_JOIN',
         LEAVE: 'PLAYERS_LEAVE',
-        MOVE: 'PLAYERS_MOVE'
+        MOVE: 'PLAYERS_MOVE',
+        OBTAIN: 'PLAYERS_OBTAIN',
     }
 }
 

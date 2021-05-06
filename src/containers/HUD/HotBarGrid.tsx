@@ -14,7 +14,7 @@ const HotBarGrid = ({ count, slot, id, position }: {
         <Container position={position}>
             <Sprite image={hotbargridPng} />
             {id && <Sprite image={itemModel[id]} anchor={0.5} position={[16, 16]} />}
-            {count && <Text isSprite anchor={0.5} position={[24, 20]} text={count.toString()} style={new TextStyle({fontSize: 14, fill: '#fff'})} />}
+            {count && <Text anchor={0.5} position={[24, 20]} text={count.toString()} style={new TextStyle({fontSize: 14, fill: '#fff'})} />}
         </Container>
     );
 };

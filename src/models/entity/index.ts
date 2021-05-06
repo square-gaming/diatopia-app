@@ -2,7 +2,7 @@ import Cow from "./mobs/Cow";
 import Goat from "./mobs/Goat";
 import Sheep from "./mobs/Sheep";
 import Pig from "./mobs/Pig";
-import Door from "./drop/Door";
+import Door from "./item/Door";
 
 const constructors: {
     [entitiesType: string]: any;

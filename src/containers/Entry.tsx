@@ -15,7 +15,7 @@ const Entry = () => {
 
 	const handleLocationChange = () => {
 		if (locationEl.current.value) {
-			setLocation(usernameEl.current.value);
+			setLocation(locationEl.current.value);
 		}
 	};
 

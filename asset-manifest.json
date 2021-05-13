@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/diatopia-app/static/css/main.62778289.chunk.css",
-    "main.js": "/diatopia-app/static/js/main.e1947471.chunk.js",
-    "main.js.map": "/diatopia-app/static/js/main.e1947471.chunk.js.map",
+    "main.js": "/diatopia-app/static/js/main.f9ff40ab.chunk.js",
+    "main.js.map": "/diatopia-app/static/js/main.f9ff40ab.chunk.js.map",
     "runtime-main.js": "/diatopia-app/static/js/runtime-main.0559b54a.js",
     "runtime-main.js.map": "/diatopia-app/static/js/runtime-main.0559b54a.js.map",
     "static/js/2.f7a3a46a.chunk.js": "/diatopia-app/static/js/2.f7a3a46a.chunk.js",
@@ -21,6 +21,6 @@
     "static/js/runtime-main.0559b54a.js",
     "static/js/2.f7a3a46a.chunk.js",
     "static/css/main.62778289.chunk.css",
-    "static/js/main.e1947471.chunk.js"
+    "static/js/main.f9ff40ab.chunk.js"
   ]
 }

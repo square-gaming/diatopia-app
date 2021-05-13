@@ -6,8 +6,9 @@ import receiver from '../controllers/receiver';
 import Client from '../controllers/Client';
 import { useAppDispatch } from '../app/hooks';
 
-const Main = ({username, clientRef}: {
+const Main = ({ username, location, clientRef}: {
     username: string;
+    location: string;
     clientRef: React.MutableRefObject<Client>;
 }) => {
     const dispatch = useAppDispatch();
@@ -16,7 +17,7 @@ const Main = ({username, clientRef}: {
         if (window.WebSocket) {
 			clientRef.current.connect(
 				{ username },
-				process.env.REACT_APP_WSS_URI,
+				location,
 				() => {
                     const controller = new Controller();
 
@@ -31,7 +32,7 @@ const Main = ({username, clientRef}: {
 		} else {
 			alert("WebSocket not supported by your browser!");
 		}
-    }, [clientRef, username, dispatch]);
+    }, [clientRef, username, location, dispatch]);
 
     return (
         <>

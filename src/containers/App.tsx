@@ -18,8 +18,9 @@ const store = configureStore({
         serializableCheck: false
     })
 });
-const App = ({username}: {
+const App = ({ username, location }: {
     username: string;
+    location: string;
 }) => {
     const clientRef = useRef(new Client());
     const [stage, setStage] = useState(STAGE_TYPE.TITLE)
@@ -38,6 +39,7 @@ const App = ({username}: {
             {stage === STAGE_TYPE.MAIN &&
                 <Main
                     username={username}
+                    location={location}
                     clientRef={clientRef}
                 />
             }

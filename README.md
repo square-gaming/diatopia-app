@@ -4,18 +4,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 # Setup
 
-create a .env to provide environment variables
-
-```
-touch .env.local
-```
-
-type following variables
-
-```
-REACT_APP_WSS_URI=ws://localhost:443/websocket
-```
-
 ## Available Scripts
 
 In the project directory, you can run:

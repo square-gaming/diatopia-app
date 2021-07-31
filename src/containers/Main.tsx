@@ -21,7 +21,7 @@ const Main = ({ username, location, clientRef}: {
 				() => {
                     const controller = new Controller();
 
-					controller.setUp(clientRef.current);
+					controller.setUp(clientRef.current, dispatch);
                     clientRef.current.onAction(() => {
                         clientRef.current.release().then(actions => {
                             actions.forEach(action => receiver(dispatch, action));

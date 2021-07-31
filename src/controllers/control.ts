@@ -1,7 +1,11 @@
+import { ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
+import Player from '../models/Player';
 import controlConfig from '../config/control';
 import Action from '../constants/action';
 import { DIRECTION } from '../constants/direction';
+import { Level } from '../types';
 import Client from './Client';
+import { selectItemSlot } from '../features/world/worldSlice';
 
 class Controller {
     private keysPressed: { [keyName: string]: boolean }
@@ -10,22 +14,60 @@ class Controller {
         this.keysPressed = {};
     }
 
-    public setUp(client: Client) {
-        document.body.addEventListener('keydown', this.keydownHandler.bind(this, client));
-        document.body.addEventListener('keyup', this.keyupHandler.bind(this, client));
+    public setUp(client: Client, dispatch: ThunkDispatch<{
+        world: {
+            level: Level;
+            players: Player[];
+            player: Player;
+        };
+    }, null, AnyAction>) {
+        document.body.addEventListener('keydown', this.keydownHandler.bind(this, client, dispatch));
+        document.body.addEventListener('keyup', this.keyupHandler.bind(this, client, dispatch));
     }
 
-    private keydownHandler(this: Controller, client: Client, evt: KeyboardEvent) {
+    private keydownHandler(this: Controller, client: Client, dispatch: ThunkDispatch<{
+        world: {
+            level: Level;
+            players: Player[];
+            player: Player;
+        };
+    }, null, AnyAction>, evt: KeyboardEvent) {
         if (!this.keysPressed[evt.key]) {
             this.keysPressed[evt.key] = true;
             this.moveControl(client, evt.key);
         }
     }
 
-    private keyupHandler(this: Controller, client: Client,  evt: KeyboardEvent) {
+    private keyupHandler(this: Controller, client: Client, dispatch: ThunkDispatch<{
+        world: {
+            level: Level;
+            players: Player[];
+            player: Player;
+        };
+    }, null, AnyAction>, evt: KeyboardEvent) {
         delete this.keysPressed[evt.key]
         this.interactControl(client, evt.key);
+        this.hotkeyControl(dispatch, evt.key);
         this.moveControl(client, evt.key);
+    }
+
+    private hotkeyControl(dispatch: ThunkDispatch<{
+        world: {
+            level: Level;
+            players: Player[];
+            player: Player;
+        };
+    }, null, AnyAction>, key: string) {
+        switch (key) {
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+                dispatch(selectItemSlot(parseInt(key)));
+                break;
+            default:
+                break;
+        }
     }
 
     private interactControl(client: Client, key: string) {

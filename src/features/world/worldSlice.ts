@@ -98,6 +98,9 @@ export const worldSlice = createSlice({
         console.error(`Player ${action.payload.uid} could NOT be found.`);
       }
     },
+    selectItemSlot(state, action: PayloadAction<number>) {
+      state.player.selectedItemSlot = action.payload;
+    },
   },
 });
 
@@ -113,7 +116,8 @@ export const {
   removePlayer,
   addPlayer,
   movePlayerById,
-  playersObtain
+  playersObtain,
+  selectItemSlot
 } = worldSlice.actions;
 
 export const selectLevel = (state: RootState) => state.world.level;
@@ -121,6 +125,8 @@ export const selectLevel = (state: RootState) => state.world.level;
 export const selectPlayer = (state: RootState) => state.world.player;
 
 export const selectPlayerInventory = (state: RootState) => state.world.player.inventory;
+
+export const selectSelectedItemSlot = (state: RootState) => state.world.player.selectedItemSlot;
 
 export const selectPlayers = (state: RootState) => state.world.players;
 

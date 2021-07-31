@@ -14,6 +14,7 @@ class Player extends Entity implements PlayerInterface {
     isMotion: boolean;
     health: number;
     inventory: Item[];
+    selectedItemSlot: number;
 
     constructor({ id, layer, pos, aspect, isConcrete, uid, rotation, speed, spawnPos, facing, motion, isMotion, health, inventory }: {
         id: string;
@@ -40,6 +41,7 @@ class Player extends Entity implements PlayerInterface {
         this.isMotion = isMotion;
         this.health = health;
         this.inventory = inventory;
+        this.selectedItemSlot = 1;
     }
 
     protected update() {

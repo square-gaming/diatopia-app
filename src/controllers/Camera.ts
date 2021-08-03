@@ -1,136 +1,156 @@
-import { video } from '../config/video';
-import GLOBAL from '../constants/global';
+import GLOBAL from "../constants/global";
+import Block from "../core/Block";
+import Point from "../math/Point";
+import Segment from "../math/Segment";
 import Image from '../models/Image';
-import Point from '../math/Point';
-import Segment from '../math/Segment';
-import Vector from '../math/Vector';
-import { Layer } from '../types';
-import { alignPoint } from '../utils';
+import Vector from "../math/Vector";
+import { Coordinate } from "../types/models";
+import { Layer } from "../types";
 
 class Camera {
-  layers: { [layerName: string]: Layer };
-  fov: number;
-  aspect: number;
-  near: number;
-  far: number;
-  position: Point;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  maxPos: Point;
+  tileSize: number;
+  following: Block | null;
 
   constructor(
-    fov: number = video.gridSize * GLOBAL.RENDER_ROWS,
-    aspect: number = video.aspect,
-    near: number = video.gridSize,
-    far: number = GLOBAL.UNIT_LENGTH,
-    position: Point = new Point(0, 0)
+    width: number,
+    height: number,
+    border: Coordinate,
+    tileSize: number
   ) {
-    this.layers = {};
-    this.fov = fov;
-    this.aspect = aspect;
-    this.near = near;
-    this.far = far;
-    this.position = position;
-  }
-
-  private get mag(): number {
-    return this.near / this.far;
-  }
-  /**
-   * Returns an offset to camera position with center grid position.
-   */
-  public get offset(): Point {
-    const { x, y } = this.position.clone().multiply(this.mag);
-    /**
-     * Prevent decimal carring from abnormal scene displacement.
-     */
-    const cameraPosProjection = new Point(
-      this.position.x % GLOBAL.UNIT_LENGTH === GLOBAL.UNIT_LENGTH / 2 - 1
-        ? Math.floor(x)
-        : Math.round(x),
-      this.position.y % GLOBAL.UNIT_LENGTH === GLOBAL.UNIT_LENGTH / 2 - 1
-        ? Math.floor(y)
-        : Math.round(y)
+    this.x = 0;
+    this.y = 0;
+    this.width = width;
+    this.height = height;
+    this.tileSize = tileSize;
+    this.maxPos = new Point(
+      ((border.x / GLOBAL.UNIT_LENGTH) + 1) * tileSize - width,
+      ((border.y / GLOBAL.UNIT_LENGTH) + 1) * tileSize - height
     );
+    this.following = null;
+  }
 
-    return new Point(
-      (-(GLOBAL.RENDER_COLUMNS - GLOBAL.VIEWPORT_COLUMNS) / 2) *
-        video.gridSize -
-        (cameraPosProjection.x % video.gridSize < video.gridSize / 2
-          ? cameraPosProjection.x % video.gridSize
-          : (cameraPosProjection.x % video.gridSize) - video.gridSize),
-      (-(GLOBAL.RENDER_ROWS - GLOBAL.VIEWPORT_ROWS) / 2) * video.gridSize -
-        (cameraPosProjection.y % video.gridSize < video.gridSize / 2
-          ? cameraPosProjection.y % video.gridSize
-          : (cameraPosProjection.y % video.gridSize) - video.gridSize)
+  private locate(pos: Point): Point {
+    const cameraPos = pos.subtract(
+      new Vector(
+        (this.width - this.tileSize) / 2,
+        (this.height - this.tileSize) / 2
+      )
     );
+    
+    cameraPos.clampX(0, this.maxPos.x);
+    cameraPos.clampY(0, this.maxPos.y);
+
+    return cameraPos;
   }
 
-  private get farPlaneBound(): [Point, Point] {
-    const start = new Point(0, 0);
-    const end = new Point(0, 0);
-    const halfHeight =
-      (((this.fov / video.gridSize - 1) / 2) * video.gridSize) / this.mag;
-    const halfWidth =
-      ((((this.fov * this.aspect) / video.gridSize - 1) / 2) * video.gridSize) /
-      this.mag;
-    const center = alignPoint(this.position);
-
-    start.set(center.clone().subtract(new Vector(halfWidth, halfHeight)));
-    end.set(
-      center
-        .clone()
-        .add(new Vector(GLOBAL.UNIT_LENGTH, GLOBAL.UNIT_LENGTH))
-        .add(new Vector(halfWidth, halfHeight))
-    );
-
-    return [start, end];
+  public get pos(): Point {
+    if (this.following) {
+      return this.locate(this.transform(this.following.pos));
+    } else {
+      return new Point(this.x, this.y);
+    }
   }
 
-  private get nearPlaneBound(): [Point, Point] {
-    return this.farPlaneBound.map((point) => point.multiply(this.mag)) as [
-      Point,
-      Point
-    ];
-  }
   /**
    * Returns a point from world coordinate system to viewport coordinate system.
    */
   public transform<Point>(pos: Point): Point;
   public transform<Segment>(seg: Segment): Segment;
-  public transform(val: Point | Segment) {
-    if (val instanceof Point) {
-      return val
+  public transform(arg: Point | Segment) {
+    if (arg instanceof Point) {
+      return arg
         .clone()
-        .subtract(this.farPlaneBound[0])
-        .multiply(this.mag)
+        .multiply(this.tileSize / GLOBAL.UNIT_LENGTH)
         .round(1);
-    } else if (val instanceof Segment) {
+    } else if (arg instanceof Segment) {
       return new Segment(
-        val.start.clone().subtract(this.farPlaneBound[0]).multiply(this.mag),
-        val.end.clone().subtract(this.farPlaneBound[0]).multiply(this.mag)
+        arg.start.clone().multiply(this.tileSize / GLOBAL.UNIT_LENGTH).round(1),
+        arg.end.clone().multiply(this.tileSize / GLOBAL.UNIT_LENGTH).round(1)
       );
     }
   }
 
-  public capture(sources: { [type: string]: any[] }) {
-    const farPlaneBound = this.farPlaneBound;
+  public transformToScreen<Point>(pos: Point): Point;
+  public transformToScreen<Segment>(seg: Segment): Segment;
+  public transformToScreen(arg: Point | Segment) {
+    if (arg instanceof Point) {
+      return this.transform(arg).subtract(this.pos);
+    } else if (arg instanceof Segment) {
+      return new Segment(
+        this.transform(arg.start).subtract(this.pos),
+        this.transform(arg.end).subtract(this.pos)
+      );
+    }
+  }
+
+  public follow(block: Block) {
+    this.following = block;
+  }
+
+  // public update() {
+  //   // assume followed sprite should be placed at the center of the screen
+  //   // whenever possible
+  //   this.following.screenX = this.width / 2;
+  //   this.following.screenY = this.height / 2;
+
+  //   // make the camera follow the sprite
+  //   this.x = this.following.x - this.width / 2;
+  //   this.y = this.following.y - this.height / 2;
+  //   // clamp values
+  //   this.x = Math.max(0, Math.min(this.x, this.maxX));
+  //   this.y = Math.max(0, Math.min(this.y, this.maxY));
+
+  //   // in map corners, the sprite cannot be placed in the center of the screen
+  //   // and we have to change its screen coordinates
+
+  //   // left and right sides
+  //   if (this.following.x < this.width / 2 ||
+  //     this.following.x > this.maxX + this.width / 2) {
+  //     this.following.screenX = this.following.x - this.x;
+  //   }
+  //   // top and bottom sides
+  //   if (this.following.y < this.height / 2 ||
+  //     this.following.y > this.maxY + this.height / 2) {
+  //     this.following.screenY = this.following.y - this.y;
+  //   }
+  // }
+
+  public capture(sources: { [type: string]: any[] }): {
+    [type: string]: Layer
+  } {
     const layers: { [type: string]: any } = {};
     let i = 0;
 
     for (const key in sources) {
       if (Object.prototype.hasOwnProperty.call(sources, key)) {
-        const elements = sources[key];
+        const elements = sources[key] as Block[];
         
         layers[key] = {
           visibilty: true,
           images: elements
-            .filter(element => element.pos.isWithin(farPlaneBound, true))
-            .map(element => new Image(element, this.transform(element.pos), element.layer))
+            .filter(element => {
+              const bound: [Point, Point] = [
+                this.pos.clone().floor(this.tileSize),
+                this.pos.clone().add(new Vector(this.width, this.height))
+              ]
+              return this.transform(element.pos).isWithin(bound, true)
+            })
+            .map(element => new Image(
+              element,
+              this.transformToScreen(element.pos),
+              element.layer
+            ))
             .sort((a, b) => a.layer - b.layer),
           order: i++
         };
       }
     }
 
-    this.layers = layers;
     return layers;
   }
 }

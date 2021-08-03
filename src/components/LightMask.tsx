@@ -1,13 +1,12 @@
 import React, { memo, useMemo } from 'react';
 import { Container } from '@inlet/react-pixi';
-import Point from '../math/Point';
 import { video } from '../config/video';
 import GLOBAL from '../constants/global';
 import * as PIXI from 'pixi.js';
 import { Layer } from '../types';
-import Camera from '../controllers/Camera';
 import Vector from '../math/Vector';
 import Light from '../controllers/Light';
+import NewCamera from '../controllers/Camera';
 
 const Component = ({
     renderer,
@@ -16,17 +15,15 @@ const Component = ({
     bound,
     lightsLayer = { visibility: true, images: [], order: 2 },
     structuresLayer = { visibility: true, images: [], order: 1 },
-    offset,
     blurSize = 0,
     children
 }: {
     renderer: PIXI.Renderer;
-    camera: Camera;
+    camera: NewCamera;
     skylightLevel: number;
     bound: Vector;
     lightsLayer: Layer;
     structuresLayer: Layer;
-    offset: Point;
     blurSize?: number;
     children: JSX.Element[];
 }) => {
@@ -53,28 +50,21 @@ const Component = ({
     if (blurSize) {
         light.filters = [new PIXI.filters.BlurFilter(blurSize)];
     }
-    
-    /**
-     * Covert Graphics to Sprite since Graphic can only hold alpha 0/1.
-     * Besides, number 0.1 is a magic number. I don't know why.
-     * */ 
+
     const lightSprite = new PIXI.Sprite(renderer.generateTexture(
         light,
         PIXI.SCALE_MODES.NEAREST,
         1,
         new PIXI.Rectangle(
-            blurSize ? -offset.x * 0.1 : -offset.x,
-            blurSize ? -offset.y * 0.1 : -offset.y,
+            0,
+            0,
             video.gridSize * GLOBAL.RENDER_COLUMNS,
             video.gridSize * GLOBAL.RENDER_ROWS
         )
     ));
 
     return (
-        <Container
-            mask={lightSprite}
-            position={[offset.x, offset.y]}
-        >
+        <Container mask={lightSprite}>
             {children}
         </Container>
     );

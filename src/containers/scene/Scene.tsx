@@ -1,6 +1,5 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { video } from '../../config/video';
-import Camera from '../../controllers/Camera';
 import GLOBAL from '../../constants/global';
 import Sight from '../../components/Sight';
 import LightMask from '../../components/LightMask';
@@ -12,20 +11,30 @@ import useIteration from '../../hooks/useIteration';
 import Players from  './Players';
 import Blocks from './Blocks';
 import Entities from './Entities';
+import Camera from '../../controllers/Camera';
 
 const Scene = () => {
-    const cameraRef = useRef<Camera>(new Camera(GLOBAL.RENDER_ROWS * video.gridSize));
+    const cameraRef = useRef<Camera>(
+        new Camera(
+            video.gridSize * GLOBAL.VIEWPORT_COLUMNS,
+            video.gridSize * GLOBAL.VIEWPORT_ROWS,
+            { x: 1900, y: 1900 },
+            32
+        )
+    );
     const { renderer } = useApp();
     const level = useAppSelector(selectLevel);
     const players = useAppSelector(selectPlayers);
     const player = useAppSelector(selectPlayer);
     useIteration();
 
-    cameraRef.current.position = player.pos;
+    useEffect(() => {
+        cameraRef.current.follow(player);
+    }, [player]);
 
     const layers = cameraRef.current.capture({
-        blocks: Object.values(level.blocks),
-        entities: Object.values(level.entities),
+        blocks: level.blocks,
+        entities: level.entities,
         players
     });
 
@@ -38,7 +47,6 @@ const Scene = () => {
             lightsLayer={layers.blocks}
             structuresLayer={layers.blocks}
             blurSize={4}
-            offset={cameraRef.current.offset}
         >
             <Blocks layer={layers.blocks} />
             <Entities layer={layers.entities} />

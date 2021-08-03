@@ -176,6 +176,25 @@ class Point {
       this.y < second.y
     );
   }
+
+  public clampX(min: number, max: number): Point {
+    this.x = Math.max(min, Math.min(this.x, max));
+
+    return this;
+  }
+
+  public clampY(min: number, max: number): Point {
+    this.y = Math.max(min, Math.min(this.y, max));
+
+    return this;
+  }
+
+  public clamp(min: number, max: number): Point {
+    this.x = Math.max(min, Math.min(this.x, max));
+    this.y = Math.max(min, Math.min(this.y, max));
+
+    return this;
+  }
 }
 
 export default Point;

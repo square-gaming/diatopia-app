@@ -3,7 +3,7 @@ import { filters } from "pixi.js";
 import React, { useCallback } from "react";
 import { video } from "../config/video";
 import GLOBAL from "../constants/global";
-import Camera from "../controllers/Camera";
+import NewCamera from "../controllers/Camera";
 import Sight from "../controllers/Sight";
 import Point from "../math/Point";
 import Vector from "../math/Vector";
@@ -16,7 +16,7 @@ const Component = ({
     blurSize,
     structuresLayer = { visibility: true, images: [], order: 1 },
 }: {
-    camera: Camera;
+    camera: NewCamera;
     bound: Vector;
     observer: Point;
     blurSize?: number;

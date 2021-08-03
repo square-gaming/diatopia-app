@@ -4,8 +4,8 @@ import Point from "../math/Point";
 import Segment from "../math/Segment";
 import Vector from "../math/Vector";
 import { Layer } from "../types";
-import Camera from "./Camera";
 import Image from "../models/Image";
+import NewCamera from "./Camera";
 
 class Light {
     bound: Vector;
@@ -14,15 +14,15 @@ class Light {
     lightImages: Image[];
 
     constructor(
-        camera: Camera,
+        camera: NewCamera,
         bound: Vector,
         lightsLayer: Layer,
         structuresLayer: Layer,
         segments: number
     ) {
         this.obstructors = structuresLayer.images.filter(image => image.target.frames)
-            .map(image => image.target.frames).flat()
-            .map(seg => camera.transform<Segment>(seg));
+            .map(image => image.target.frames as Segment).flat()
+            .map(seg => camera.transformToScreen(seg));
         this.bound = bound;
         this.segments = segments;
         this.lightImages = lightsLayer.images;

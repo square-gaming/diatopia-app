@@ -1,15 +1,14 @@
 import React, { memo, useMemo } from 'react';
-import { Container } from '@inlet/react-pixi';
-import { video } from '../config/video';
-import GLOBAL from '../constants/global';
+import { Container, useApp } from '@inlet/react-pixi';
+import { video } from '../../config/video';
+import GLOBAL from '../../constants/global';
 import * as PIXI from 'pixi.js';
-import { Layer } from '../types';
-import Vector from '../math/Vector';
-import Light from '../controllers/Light';
-import NewCamera from '../controllers/Camera';
+import { Layer } from '../../types';
+import Vector from '../../math/Vector';
+import Camera from '../../controllers/Camera';
+import useLight from '../../hooks/useLight';
 
 const Component = ({
-    renderer,
     camera,
     skylightLevel,
     bound,
@@ -18,8 +17,7 @@ const Component = ({
     blurSize = 0,
     children
 }: {
-    renderer: PIXI.Renderer;
-    camera: NewCamera;
+    camera: Camera;
     skylightLevel: number;
     bound: Vector;
     lightsLayer: Layer;
@@ -27,13 +25,16 @@ const Component = ({
     blurSize?: number;
     children: JSX.Element[];
 }) => {
-    const areas = new Light(camera, bound, lightsLayer, structuresLayer, 36).areas;
-    const light = useMemo(() => new PIXI.Graphics(), []);
+    const { renderer } = useApp();
+    const light = useLight(camera, bound, lightsLayer, 36);
+    const lightGraphic = useMemo(() => new PIXI.Graphics(), []);
 
-    light.clear();
-    light.beginFill(0xff0000, skylightLevel * 0.05);
-    light.drawRect(0, 0, video.gridSize * GLOBAL.RENDER_ROWS, video.gridSize * GLOBAL.RENDER_COLUMNS);
-    areas.forEach(area => {
+    light.update(structuresLayer);
+
+    lightGraphic.clear();
+    lightGraphic.beginFill(0xff0000, skylightLevel * 0.05);
+    lightGraphic.drawRect(0, 0, video.gridSize * GLOBAL.RENDER_ROWS, video.gridSize * GLOBAL.RENDER_COLUMNS);
+    light.areas.forEach(area => {
         const path = area.vertices
             .map(vertex => [
                 Math.round(vertex.point.x),
@@ -41,18 +42,18 @@ const Component = ({
             ])
             .flat();
 
-        light.beginFill(0xff0000, area.lightLevel * 0.05);
-        light.drawPolygon(path);
-        light.endFill();
+        lightGraphic.beginFill(0xff0000, area.lightLevel * 0.05);
+        lightGraphic.drawPolygon(path);
+        lightGraphic.endFill();
     });
-    light.endFill();
+    lightGraphic.endFill();
 
     if (blurSize) {
-        light.filters = [new PIXI.filters.BlurFilter(blurSize)];
+        lightGraphic.filters = [new PIXI.filters.BlurFilter(blurSize)];
     }
 
     const lightSprite = new PIXI.Sprite(renderer.generateTexture(
-        light,
+        lightGraphic,
         PIXI.SCALE_MODES.NEAREST,
         1,
         new PIXI.Rectangle(

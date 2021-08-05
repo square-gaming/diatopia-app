@@ -1,10 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import { video } from '../../config/video';
 import GLOBAL from '../../constants/global';
-import Sight from '../../components/Sight';
-import LightMask from '../../components/LightMask';
+import Sight from './Sight';
+import LightMask from './LightMask';
 import Vector from '../../math/Vector';
-import { useApp } from '@inlet/react-pixi';
 import { useAppSelector } from '../../app/hooks';
 import { selectLevel, selectPlayers, selectPlayer } from '../../features/world/worldSlice';
 import useIteration from '../../hooks/useIteration';
@@ -22,7 +21,6 @@ const Scene = () => {
             32
         )
     );
-    const { renderer } = useApp();
     const level = useAppSelector(selectLevel);
     const players = useAppSelector(selectPlayers);
     const player = useAppSelector(selectPlayer);
@@ -40,7 +38,6 @@ const Scene = () => {
 
     return (
         <LightMask
-            renderer={renderer}
             camera={cameraRef.current}
             skylightLevel={level.lightLevel}
             bound={new Vector(video.gridSize * GLOBAL.RENDER_COLUMNS, video.gridSize * GLOBAL.RENDER_ROWS)}

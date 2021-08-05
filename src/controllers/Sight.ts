@@ -4,34 +4,23 @@ import Point from "../math/Point";
 import Segment from "../math/Segment";
 import Vector from "../math/Vector";
 import { Layer } from "../types";
-import NewCamera from "./Camera";
+import Camera from "./Camera";
 
 class Sight {
+    camera: Camera;
     observer: Point;
     obstructors: Segment[];
     bound: Vector;
     offset: number;
 
     constructor(
-        camera: NewCamera,
-        observer: Point,
+        camera: Camera,
         bound: Vector,
-        structuresLayer: Layer,
         offset: number = 0.00001
     ) {
-        this.observer = camera.transformToScreen(observer)
-            .add(new Vector(video.gridSize / 2, video.gridSize / 2));
-        this.obstructors = structuresLayer.images
-            .filter(image => image.target.frames)
-            .map(image => image.target.frames as Segment).flat()
-            .map(seg => camera.transformToScreen(seg))
-            .concat([
-                new Segment(new Point(0, 0), new Point(bound.x, 0)),
-                new Segment(new Point(bound.x, 0), new Point(bound.x, bound.y)),
-                new Segment(new Point(bound.x, bound.y), new Point(0, bound.y)),
-                new Segment(new Point(0, bound.y), new Point(0, 0))
-            ]);
-
+        this.camera = camera;
+        this.observer = new Point(0, 0);
+        this.obstructors = [new Segment(new Point(0, 0), new Point(0, 0))];
         this.bound = bound;
         this.offset = offset;
     }
@@ -101,6 +90,21 @@ class Sight {
         intersects.sort((a, b) => a.angle - b.angle);
 
         return intersects;
+    }
+
+    public update(observer: Point, structuresLayer: Layer) {
+        this.observer = this.camera.transformToScreen(observer)
+            .add(new Vector(video.gridSize / 2, video.gridSize / 2));
+        this.obstructors = structuresLayer.images
+            .filter(image => image.target.frames)
+            .map(image => image.target.frames as Segment).flat()
+            .map(seg => this.camera.transformToScreen(seg))
+            .concat([
+                new Segment(new Point(0, 0), new Point(this.bound.x, 0)),
+                new Segment(new Point(this.bound.x, 0), new Point(this.bound.x, this.bound.y)),
+                new Segment(new Point(this.bound.x, this.bound.y), new Point(0, this.bound.y)),
+                new Segment(new Point(0, this.bound.y), new Point(0, 0))
+            ]);
     }
 }
 

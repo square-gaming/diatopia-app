@@ -5,24 +5,23 @@ import Segment from "../math/Segment";
 import Vector from "../math/Vector";
 import { Layer } from "../types";
 import Image from "../models/Image";
-import NewCamera from "./Camera";
+import Camera from "./Camera";
 
 class Light {
+    camera: Camera
     bound: Vector;
     obstructors: Segment[];
     segments: number;
     lightImages: Image[];
 
     constructor(
-        camera: NewCamera,
+        camera: Camera,
         bound: Vector,
         lightsLayer: Layer,
-        structuresLayer: Layer,
         segments: number
     ) {
-        this.obstructors = structuresLayer.images.filter(image => image.target.frames)
-            .map(image => image.target.frames as Segment).flat()
-            .map(seg => camera.transformToScreen(seg));
+        this.camera = camera;
+        this.obstructors = [new Segment(new Point(0, 0), new Point(0, 0))];
         this.bound = bound;
         this.segments = segments;
         this.lightImages = lightsLayer.images;
@@ -86,6 +85,13 @@ class Light {
                 vertices
             };
         });
+    }
+
+    public update(structuresLayer: Layer) {
+        this.obstructors = structuresLayer.images
+            .filter(image => image.target.frames)
+            .map(image => image.target.frames as Segment).flat()
+            .map(seg => this.camera.transformToScreen(seg));
     }
 }
 
